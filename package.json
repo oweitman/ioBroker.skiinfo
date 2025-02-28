@@ -6,7 +6,7 @@
         "name": "oweitman",
         "email": "oweitman@gmx.de"
     },
-    "homepage": "https://github.com/oweitman@gmx.de/ioBroker.skiinfo",
+    "homepage": "https://github.com/oweitman/ioBroker.skiinfo",
     "license": "MIT",
     "keywords": [
         "ioBroker",
@@ -16,7 +16,7 @@
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/oweitman@gmx.de/ioBroker.skiinfo.git"
+        "url": "https://github.com/oweitman/ioBroker.skiinfo.git"
     },
     "engines": {
         "node": ">= 18"
@@ -77,7 +77,7 @@
         "upload": "NPM_PACK=$(npm pack) && iob url \"$(pwd)/$NPM_PACK\" --debug && rm \"$NPM_PACK\""
     },
     "bugs": {
-        "url": "https://github.com/oweitman@gmx.de/ioBroker.skiinfo/issues"
+        "url": "https://github.com/oweitman/ioBroker.skiinfo/issues"
     },
     "readmeFilename": "README.md"
 }
