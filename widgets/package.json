@@ -1,0 +1,20 @@
+{
+    "name": "skiinfo-vis1-widget",
+    "version": "1.0.0",
+    "main": "skiinfo/js/skiinfo-dist.js",
+    "watch": {
+        "build": "skiinfo/**/js/*.js"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "buildmin": "esbuild skiinfo/js/bundle.js --minify --bundle --outfile=skiinfo/dist/skiinfo-dist.js --target=es6 --sourcemap",
+        "build": "esbuild skiinfo/js/bundle.js --bundle --outfile=skiinfo/dist/skiinfo-dist.js --target=es6 --sourcemap",
+        "watch": "npm-watch"
+    },
+    "author": "",
+    "license": "MIT",
+    "description": "",
+    "dependencies": {
+        "npm-watch": "^0.13.0"
+    }
+}

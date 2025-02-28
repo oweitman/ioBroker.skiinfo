@@ -1,0 +1,83 @@
+{
+    "common": {
+        "name": "skiinfo",
+        "version": "0.0.1",
+        "news": {
+            "0.0.1": {
+                "en": "initial release",
+                "de": "Erstveröffentlichung",
+                "ru": "Начальная версия",
+                "pt": "lançamento inicial",
+                "nl": "Eerste uitgave",
+                "fr": "Première version",
+                "it": "Versione iniziale",
+                "es": "Versión inicial",
+                "pl": "Pierwsze wydanie",
+                "uk": "Початкова версія",
+                "zh-cn": "首次出版"
+            }
+        },
+        "titleLang": {
+            "en": "skiinfo",
+            "de": "Skiinfo",
+            "ru": "Skiinfo",
+            "pt": "Skiinfo",
+            "nl": "skiinfo",
+            "fr": "skiinfo",
+            "it": "skiinfo",
+            "es": "esquí",
+            "pl": "Skiinfo",
+            "uk": "гірсьниця",
+            "zh-cn": "skiinfo"
+        },
+        "desc": {
+            "en": "skiinfo",
+            "de": "Skiinfo",
+            "ru": "Skiinfo",
+            "pt": "Skiinfo",
+            "nl": "skiinfo",
+            "fr": "skiinfo",
+            "it": "skiinfo",
+            "es": "esquí",
+            "pl": "Skiinfo",
+            "uk": "гірсьниця",
+            "zh-cn": "skiinfo"
+        },
+        "authors": ["oweitman <oweitman@gmx.de>"],
+        "keywords": ["ioBroker", "template", "Smart Home", "home automation"],
+        "licenseInformation": {
+            "type": "free",
+            "license": "MIT"
+        },
+        "platform": "Javascript/Node.js",
+        "icon": "skiinfo.png",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/oweitman/ioBroker.skiinfo/main/admin/skiinfo.png",
+        "readme": "https://github.com/oweitman/ioBroker.skiinfo/blob/main/README.md",
+        "loglevel": "info",
+        "tier": 3,
+        "restartAdapters": ["vis"],
+        "mode": "daemon",
+        "type": "misc-data",
+        "messagebox": true,
+        "compact": true,
+        "connectionType": "cloud",
+        "dataSource": "poll",
+        "adminUI": {
+            "config": "json"
+        },
+        "dependencies": [
+            {
+                "js-controller": ">=6.0.11"
+            }
+        ],
+        "globalDependencies": [
+            {
+                "admin": "7.0.23"
+            }
+        ]
+    },
+    "native": {},
+    "objects": [],
+    "instanceObjects": []
+}
