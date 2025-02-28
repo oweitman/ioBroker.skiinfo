@@ -18,33 +18,33 @@
             }
         },
         "titleLang": {
-            "en": "skiinfo",
+            "en": "Skiinfo",
             "de": "Skiinfo",
             "ru": "Skiinfo",
             "pt": "Skiinfo",
-            "nl": "skiinfo",
-            "fr": "skiinfo",
-            "it": "skiinfo",
-            "es": "esquí",
+            "nl": "Skiinfo",
+            "fr": "Skiinfo",
+            "it": "Skiinfo",
+            "es": "Skiinfo",
             "pl": "Skiinfo",
-            "uk": "гірсьниця",
-            "zh-cn": "skiinfo"
+            "uk": "Skiinfo",
+            "zh-cn": "Skiinfo"
         },
         "desc": {
-            "en": "skiinfo",
-            "de": "Skiinfo",
-            "ru": "Skiinfo",
-            "pt": "Skiinfo",
-            "nl": "skiinfo",
-            "fr": "skiinfo",
-            "it": "skiinfo",
-            "es": "esquí",
-            "pl": "Skiinfo",
-            "uk": "гірсьниця",
-            "zh-cn": "skiinfo"
+            "en": "With this adapter you can access the current snow depths for mountain, valley and fresh snow, as well as open lifts for various European locations",
+            "de": "Mit diesem Adapter können Sie auf die aktuellen Schneetiefe für Berg-, Tal- und Frischschnee sowie offene Lifte für verschiedene europäische Standorte zugreifen",
+            "ru": "С помощью этого адаптера вы можете получить доступ к нынешней глубине снега для горы, долины и свежего снега, а также открытые подъемники для различных европейских мест",
+            "pt": "Com este adaptador, você pode acessar as profundidades de neve atuais para montanha, vale e neve fresca, além de elevadores abertos para vários locais europeus",
+            "nl": "Met deze adapter hebt u toegang tot de huidige sneeuwdiepten voor berg, vallei en verse sneeuw, evenals open liften voor verschillende Europese locaties",
+            "fr": "Avec cet adaptateur, vous pouvez accéder aux profondeurs de neige actuelles pour la montagne, la vallée et la neige fraîche, ainsi que des ascenseurs ouverts pour divers endroits européens",
+            "it": "Con questo adattatore puoi accedere alle attuali profondità della neve per montagna, valle e neve fresca, nonché ascensori aperti per varie località europee",
+            "es": "Con este adaptador puede acceder a las profundidades de nieve actuales para montaña, valle y nieve fresca, así como ascensores abiertos para varios lugares europeos.",
+            "pl": "Za pomocą tego adaptera można uzyskać dostęp do obecnych głębokości śniegu dla gór, doliny i świeżego śniegu, a także otwartych wind dla różnych europejskich lokalizacji",
+            "uk": "За допомогою цього адаптера ви можете отримати доступ до нинішніх глибин снігу для гори, долини та свіжого снігу, а також відкритих підйомників для різних європейських місць",
+            "zh-cn": "使用此适配器，您可以进入当前的山地，山谷和新鲜雪的深度，并为各种欧洲地点开放式升降机"
         },
         "authors": ["oweitman <oweitman@gmx.de>"],
-        "keywords": ["ioBroker", "template", "Smart Home", "home automation"],
+        "keywords": ["skiinfo", "ski", "snow", "lifts"],
         "licenseInformation": {
             "type": "free",
             "license": "MIT"
@@ -64,7 +64,7 @@
         "connectionType": "cloud",
         "dataSource": "poll",
         "adminUI": {
-            "config": "json"
+            "config": "none"
         },
         "dependencies": [
             {
@@ -73,7 +73,7 @@
         ],
         "globalDependencies": [
             {
-                "admin": "7.0.23"
+                "admin": ">=7.4.10"
             }
         ]
     },
