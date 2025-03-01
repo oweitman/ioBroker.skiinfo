@@ -8,7 +8,7 @@ export default [
     {
         // specify files to exclude from linting here
         ignores: [
-            'widgets/skiinfo/js/skiinfo-dist.js',
+            'widgets/skiinfo/dist/skiinfo-dist.js',
             '.dev-server/**',
             'backup/**',
             '*.test.js',
