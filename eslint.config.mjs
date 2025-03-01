@@ -29,7 +29,7 @@ export default [
             "@typescript-eslint/no-unused-vars": "warn",
             "prettier/prettier": "warn",
             "no-debugger": "warn",
-            'jsdoc/require-jsdoc': 'off',
+            'jsdoc/require-jsdoc': 'warn',
         },
     },
 
