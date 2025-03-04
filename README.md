@@ -26,6 +26,10 @@ The following widgets actually exists
 - [`Skiinfo browser`](#skiinfo-browser) - to browse through all available countries, regions and areas and set favorite areas.
 - [`Skiinfo Favorites`](#skiinfo-favorite) - to show only the favorite ski areas.
 
+weitere Informationen
+
+- usabele [`CSS classes`](#css-classes) for individual styling
+
 ### Skiinfo browser
 
 The widget is used to browse through all available countries, regions and areas and set favorite areas.
@@ -39,6 +43,50 @@ The widget is used to show only the favorite ski areas.
 With the table head, you can toggle the sort mode for each column (default, descending, ascending).
 With the star icon you can remove the area from the favorite list.
 As a datapoint please select the config datapoint.
+
+### CSS Classes
+
+#### `widgetID` and `skiinfo`
+
+All CSS classes are provided with the two base classes `widgetID` and `skiinfo`. This allows you to apply formatting to individual widgets or, when using multiple skiinfo widgets, to all skiinfo widgets.
+
+#### `countries`,`regions` and `areas`
+
+each of the different information areas can be addressed separately with these 3 CSS classes
+
+#### Information areas country, region and area
+
+Each of the 3 information areas consists of a normal HTML table.
+
+#### Selected Elements in Country and Region
+
+Each of the selected elements is located in a span element and has been given the CSS class `selected`.
+
+#### Formatting the columns in the Area section
+
+The table header was provided with the CSS classes tharea and thsort. Each column element was provided with `txtr` for right-aligned and `txtl` for left-aligned formatting.
+
+#### Favorite star
+
+The favorite star can be located in a span element and can be addressed via the CSS class `favorite`. If an element has been selected as a favorite, the span element is supplemented with `selected`.
+
+#### Examples for CSS classes
+
+##### Different color for a selected country or region element
+
+```css
+.skiinfo .selected {
+    color: green;
+}
+```
+
+##### Different formatting of the `regions` elements
+
+```css
+.skiinfo.regions span {
+    color: grey;
+}
+```
 
 ## Available sendTo commands
 
