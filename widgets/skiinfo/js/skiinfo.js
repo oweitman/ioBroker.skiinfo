@@ -16,6 +16,7 @@ $.extend(true, systemDictionary, translations);
 // this code can be placed directly in skiinfo.html
 vis.binds['skiinfo'] = {
     version: pkgVersion,
+    debug: true,
     showVersion: function () {
         if (vis.binds['skiinfo'].version) {
             console.log(`Version skiinfo: ${vis.binds['skiinfo'].version}`);
@@ -58,7 +59,7 @@ vis.binds['skiinfo'] = {
                 return;
             }
 
-            console.log('Load Data');
+            this.visSkiinfo.debug && console.log('Load Data');
             if (!this.visSkiinfo[instance]) {
                 this.visSkiinfo[instance] = {
                     data: null,
@@ -77,9 +78,10 @@ vis.binds['skiinfo'] = {
                     },
                 };
             }
+            this.visSkiinfo[widgetID].wdata = data;
             this.visSkiinfo[widgetID].instance = instance;
             if (!this.visSkiinfo[instance].data) {
-                this.visSkiinfo[instance].data = await this.visSkiinfo.getServerSkiData(instance, widgetID);
+                this.visSkiinfo[instance].data = await this.visSkiinfo.getServerSkiData(instance);
                 if (!this.visSkiinfo[instance].data.favorites) {
                     this.visSkiinfo[instance].data.favorites = [];
                 }
@@ -97,7 +99,9 @@ vis.binds['skiinfo'] = {
          * @param widgetID - The ID of the widget to render.
          */
         async render(widgetID) {
+            this.visSkiinfo.debug && console.log(`render browser`);
             let instance = this.visSkiinfo[widgetID].instance;
+            let favoritecolor = this.visSkiinfo[widgetID].wdata.favoritecolor || 'red';
             let text = '';
             text += `<style>`;
             text += `.skiinfo.${widgetID}.container {\n`;
@@ -143,7 +147,7 @@ vis.binds['skiinfo'] = {
             text += '   cursor: pointer;\n';
             text += '} \n';
             text += `.skiinfo.${widgetID}.areas .favorite.selected {\n`;
-            text += '   color: red; \n';
+            text += `   color: ${favoritecolor}; \n`;
             text += '} \n';
             text += `.skiinfo.${widgetID} table {\n`;
             text += '   white-space: nowrap; \n';
@@ -161,7 +165,7 @@ vis.binds['skiinfo'] = {
             text += `.skiinfo.${widgetID} th {\n`;
             text += '   text-align: left; \n';
             text += '} \n';
-            text += `.skiinfo.${widgetID} td.selected {\n`;
+            text += `.skiinfo.${widgetID} td span.selected {\n`;
             text += '   font-weight: bold; \n';
             text += '} \n';
 
@@ -191,11 +195,11 @@ vis.binds['skiinfo'] = {
             text += `   </tr>`;
             this.visSkiinfo[instance].data.skiinfodata.map(country => {
                 text += `   <tr>`;
-                text += `    <td 
+                text += `    <td><span 
                  data-code="${country.code}" 
                  data-widgetid="${widgetID}" 
                  ${country.code == this.visSkiinfo[widgetID].selectedCountry.code ? 'class="selected"' : ''}
-                >${country.name}</td>`;
+                >${country.name}</span></td>`;
                 text += `   </tr>`;
             });
             text += `  </table>`;
@@ -207,12 +211,12 @@ vis.binds['skiinfo'] = {
             text += `   </tr>`;
             this.visSkiinfo[widgetID].selectedCountry.regions.map(region => {
                 text += `   <tr>`;
-                text += `    <td 
+                text += `    <td><span  
                  data-code="${region.code}" 
                  data-widgetid="${widgetID}" 
                  data-country="${this.visSkiinfo[widgetID].selectedCountry.code}" 
                  ${region.code == this.visSkiinfo[widgetID].selectedRegion.code ? 'class="selected"' : ''}
-                >${region.name}</td>`;
+                >${region.name}</span></td>`;
                 text += `   </tr>`;
             });
             text += `  </table>`;
@@ -342,10 +346,10 @@ vis.binds['skiinfo'] = {
             text += `</div>`;
 
             $(`#${widgetID}`).html(text);
-            $(`.skiinfo.${widgetID}.countries td`).click(async function () {
+            $(`.skiinfo.${widgetID}.countries td span`).click(async function () {
                 await vis.binds['skiinfo'].browser.onClickCountry(this);
             });
-            $(`.skiinfo.${widgetID}.regions td`).click(async function () {
+            $(`.skiinfo.${widgetID}.regions td span`).click(async function () {
                 await vis.binds['skiinfo'].browser.onClickRegion(this);
             });
             $(`.skiinfo.${widgetID} .tharea`).click(async function () {
@@ -367,7 +371,7 @@ vis.binds['skiinfo'] = {
         onClickCountry: async function (el) {
             let code = $(el).attr('data-code');
             let widgetID = $(el).attr('data-widgetid');
-
+            this.visSkiinfo.debug && console.log(`onClickCountry ${widgetID} ${code}`);
             await this.setSelectedCountry(widgetID, code);
             this.render(widgetID);
         },
@@ -384,6 +388,7 @@ vis.binds['skiinfo'] = {
             let code = $(el).attr('data-code');
             let countrycode = $(el).attr('data-country');
             let widgetID = $(el).attr('data-widgetid');
+            this.visSkiinfo.debug && console.log(`onClickRegion ${widgetID} ${countrycode} ${code}`);
             await this.setSelectedRegion(widgetID, countrycode, code);
             this.render(widgetID);
         },
@@ -400,6 +405,7 @@ vis.binds['skiinfo'] = {
         onClickHeadArea: async function (el) {
             let sortkey = $(el).attr('data-sort');
             let widgetID = $(el).attr('data-widgetid');
+            this.visSkiinfo.debug && console.log(`onClickHeadArea ${widgetID} ${sortkey}`);
             vis.binds['skiinfo'].toggleSort(widgetID, sortkey);
             this.render(widgetID);
         },
@@ -424,16 +430,16 @@ vis.binds['skiinfo'] = {
                 item => item.country == country && item.area == area,
             );
             if (index !== -1) {
+                this.visSkiinfo.debug && console.log(`onClickFavorite ${widgetID} ${country} ${area} fav deleted`);
                 this.visSkiinfo[instance].data = await this.visSkiinfo.delServerFavorite(
                     this.visSkiinfo[widgetID].instance,
-                    widgetID,
                     country,
                     area,
                 );
             } else {
+                this.visSkiinfo.debug && console.log(`onClickFavorite ${widgetID} ${country} ${area} fav added`);
                 this.visSkiinfo[instance].data = await this.visSkiinfo.addServerFavorite(
                     this.visSkiinfo[widgetID].instance,
-                    widgetID,
                     country,
                     area,
                 );
@@ -453,6 +459,7 @@ vis.binds['skiinfo'] = {
          */
         setSelectedCountry: async function (widgetID, countrycode) {
             let instance = this.visSkiinfo[widgetID].instance;
+            this.visSkiinfo.debug && console.log(`setSelectedCountry ${widgetID} ${countrycode}`);
             if (countrycode) {
                 this.visSkiinfo[widgetID].selectedCountry = this.visSkiinfo[instance].data.skiinfodata.find(
                     country => country.code == countrycode,
@@ -460,7 +467,6 @@ vis.binds['skiinfo'] = {
                 if (this.visSkiinfo[widgetID].selectedCountry.loaded == false) {
                     this.visSkiinfo[instance].data = await this.visSkiinfo.getServerCountryData(
                         this.visSkiinfo[widgetID].instance,
-                        widgetID,
                         this.visSkiinfo[widgetID].selectedCountry.code,
                     );
                     this.visSkiinfo[widgetID].selectedCountry = this.visSkiinfo[instance].data.skiinfodata.find(
@@ -489,6 +495,7 @@ vis.binds['skiinfo'] = {
          */
         setSelectedRegion: async function (widgetID, countrycode, regioncode) {
             let instance = this.visSkiinfo[widgetID].instance;
+            this.visSkiinfo.debug && console.log(`setSelectedRegion ${widgetID} ${countrycode} ${regioncode}`);
             if (countrycode) {
                 this.visSkiinfo[widgetID].selectedCountry = this.visSkiinfo[instance].data.skiinfodata.find(
                     country => country.code == countrycode,
@@ -496,7 +503,6 @@ vis.binds['skiinfo'] = {
                 if (this.visSkiinfo[widgetID].selectedCountry.loaded == false) {
                     this.visSkiinfo[instance].data = await this.visSkiinfo.getServerCountryData(
                         this.visSkiinfo[widgetID].instance,
-                        widgetID,
                         this.visSkiinfo[widgetID].selectedCountry.code,
                     );
                     this.visSkiinfo[widgetID].selectedCountry = this.visSkiinfo[instance].data.skiinfodata.find(
@@ -513,7 +519,6 @@ vis.binds['skiinfo'] = {
                 if (this.visSkiinfo[widgetID].selectedRegion.loaded == false) {
                     this.visSkiinfo[instance].data = await this.visSkiinfo.getServerRegionData(
                         this.visSkiinfo[widgetID].instance,
-                        widgetID,
                         this.visSkiinfo[widgetID].selectedCountry.code,
                         this.visSkiinfo[widgetID].selectedRegion.code,
                     );
@@ -527,7 +532,6 @@ vis.binds['skiinfo'] = {
         },
     },
     favorites: {
-        /*************  ✨ Codeium Command ⭐  *************/
         /**
          * Creates a widget for the specified widget ID, view, data, and style.
          * If the widget element is not found, the function retries after a delay.
@@ -540,7 +544,6 @@ vis.binds['skiinfo'] = {
          * @param data - Data object containing skiinfo_oid and other relevant information.
          * @param style - The style to apply to the widget.
          */
-        /******  09fdfe0a-1c3f-4560-a13f-839ebddff921  *******/
         createWidget: async function (widgetID, view, data, style) {
             var $div = $(`#${widgetID}`);
             // if nothing found => wait
@@ -570,9 +573,10 @@ vis.binds['skiinfo'] = {
                     },
                 };
             }
+            this.visSkiinfo[widgetID].wdata = data;
             this.visSkiinfo[widgetID].instance = instance;
             if (!this.visSkiinfo[instance].data) {
-                this.visSkiinfo[instance].data = await this.visSkiinfo.getServerSkiData(instance, widgetID);
+                this.visSkiinfo[instance].data = await this.visSkiinfo.getServerSkiData(instance);
                 if (!this.visSkiinfo[instance].data.favorites) {
                     this.visSkiinfo[instance].data.favorites = [];
                 }
@@ -609,7 +613,9 @@ vis.binds['skiinfo'] = {
          * @param widgetID - The ID of the widget to render.
          */
         async render(widgetID) {
+            this.visSkiinfo.debug && console.log(`favorites render ${widgetID}`);
             let instance = this.visSkiinfo[widgetID].instance;
+            let favoritecolor = this.visSkiinfo[widgetID].wdata.favoritecolor || 'red';
             let text = '';
             text += `<style>`;
             text += `.skiinfo.${widgetID}.container {\n`;
@@ -630,7 +636,7 @@ vis.binds['skiinfo'] = {
             text += '   cursor: pointer;\n';
             text += '} \n';
             text += `.skiinfo.${widgetID}.areas .favorite.selected {\n`;
-            text += '   color: red; \n';
+            text += `   color: ${favoritecolor}; \n`;
 
             text += '} \n';
             text += `.skiinfo.${widgetID} table {\n`;
@@ -809,6 +815,7 @@ vis.binds['skiinfo'] = {
         onClickHeadArea: async function (el) {
             let sortkey = $(el).attr('data-sort');
             let widgetID = $(el).attr('data-widgetid');
+            this.visSkiinfo.debug && console.log(`onClickHeadArea ${widgetID} ${sortkey}`);
             vis.binds['skiinfo'].toggleSort(widgetID, sortkey);
             this.render(widgetID);
         },
@@ -833,16 +840,16 @@ vis.binds['skiinfo'] = {
                 item => item.country == country && item.area == area,
             );
             if (index !== -1) {
+                this.visSkiinfo.debug && console.log(`onClickFavorite ${widgetID} ${country} ${area} fav deleted`);
                 this.visSkiinfo[instance].data = await this.visSkiinfo.delServerFavorite(
                     this.visSkiinfo[widgetID].instance,
-                    widgetID,
                     country,
                     area,
                 );
             } else {
+                this.visSkiinfo.debug && console.log(`onClickFavorite ${widgetID} ${country} ${area} fav added`);
                 this.visSkiinfo[instance].data = await this.visSkiinfo.addServerFavorite(
                     this.visSkiinfo[widgetID].instance,
-                    widgetID,
                     country,
                     area,
                 );
@@ -861,6 +868,7 @@ vis.binds['skiinfo'] = {
      * @param sortkey - The key representing the column to toggle the sort state for.
      */
     toggleSort: function (widgetID, sortkey) {
+        this.visSkiinfo.debug && console.log(`toggleSort ${widgetID} ${sortkey}`);
         for (const item in vis.binds['skiinfo'][widgetID].sortState) {
             if (item !== sortkey) {
                 vis.binds['skiinfo'][widgetID].sortState[item] = 0;
@@ -870,97 +878,82 @@ vis.binds['skiinfo'] = {
     },
     /**
      * Sends a request to the server to fetch the current ski data for all countries, regions, and areas.
-     * The function logs a message to the console and returns a promise that resolves when the data is received.
      *
      * @param instance - The instance ID of the adapter.
-     * @param widgetID - The ID of the widget that initiated the request.
      * @returns - A promise that resolves to the ski data.
      */
-    getServerSkiData: async function (instance, widgetID) {
-        console.log(`getServerSkiData request`);
-        return await this.sendToAsync(instance, 'getServerSkiData', { widgetID: widgetID });
+    getServerSkiData: async function (instance) {
+        this.visSkiinfo.debug && console.log(`getServerSkiData request`);
+        return await this.sendToAsync(instance, 'getServerSkiData', {});
     },
     /**
      * Sends a request to the server to fetch the current ski data for a specific country.
-     * The function logs a message to the console and returns a promise that resolves when the data is received.
      *
      * @param instance - The instance ID of the adapter.
-     * @param widgetID - The ID of the widget that initiated the request.
      * @param countrycode - The code of the country to fetch data for.
      * @returns - A promise that resolves to the ski data.
      */
-    getServerCountryData: async function (instance, widgetID, countrycode) {
-        console.log(`getServerCountryData request`);
+    getServerCountryData: async function (instance, countrycode) {
+        this.visSkiinfo.debug && console.log(`getServerCountryData request`);
         return await this.sendToAsync(instance, 'getServerCountryData', {
-            widgetID: widgetID,
             countrycode: countrycode,
         });
     },
     /**
      * Sends a request to the server to fetch the current ski data for a specific region.
-     * The function logs a message to the console and returns a promise that resolves when the data is received.
      *
      * @param instance - The instance ID of the adapter.
-     * @param widgetID - The ID of the widget that initiated the request.
      * @param countrycode - The code of the country to fetch data for.
      * @param regioncode - The code of the region to fetch data for.
      * @returns - A promise that resolves to the ski data.
      */
-    getServerRegionData: async function (instance, widgetID, countrycode, regioncode) {
-        console.log(`getServerRegionData request`);
+    getServerRegionData: async function (instance, countrycode, regioncode) {
+        this.visSkiinfo.debug && console.log(`getServerRegionData request`);
         return await this.sendToAsync(instance, 'getServerRegionData', {
-            widgetID: widgetID,
             countrycode: countrycode,
             regioncode: regioncode,
         });
     },
     /**
      * Sends a request to the server to add a favorite ski area.
-     * The function logs a message to the console and returns a promise that resolves when the data is received.
      *
      * @param instance - The instance ID of the adapter.
-     * @param widgetID - The ID of the widget that initiated the request.
      * @param countrycode - The code of the country to add the favorite for.
      * @param areacode - The code of the area to add as a favorite.
      * @returns - A promise that resolves to the ski data.
      */
-    addServerFavorite: async function (instance, widgetID, countrycode, areacode) {
-        console.log(`addServerFavorite request`);
+    addServerFavorite: async function (instance, countrycode, areacode) {
+        this.visSkiinfo.debug && console.log(`addServerFavorite request`);
         return await this.sendToAsync(instance, 'addServerFavorite', {
-            widgetID: widgetID,
             countrycode: countrycode,
             areacode: areacode,
         });
     },
     /**
      * Sends a request to the server to remove a favorite ski area.
-     * The function logs a message to the console and returns a promise that resolves when the data is received.
      *
      * @param instance - The instance ID of the adapter.
-     * @param widgetID - The ID of the widget that initiated the request.
      * @param countrycode - The code of the country to remove the favorite for.
      * @param areacode - The code of the area to remove as a favorite.
      * @returns - A promise that resolves to the ski data.
      */
-    delServerFavorite: async function (instance, widgetID, countrycode, areacode) {
-        console.log(`delServerFavorite request`);
+    delServerFavorite: async function (instance, countrycode, areacode) {
+        this.visSkiinfo.debug && console.log(`delServerFavorite request`);
         return await this.sendToAsync(instance, 'delServerFavorite', {
-            widgetID: widgetID,
             countrycode: countrycode,
             areacode: areacode,
         });
     },
     /**
      * Sends a request to the server and returns a promise that resolves when the server responds.
-     * The function logs a message to the console and wraps the sendTo function in a promise.
      *
      * @param instance - The instance ID of the adapter.
      * @param command - The command to send to the server.
      * @param sendData - The data to send to the server.
      * @returns - A promise that resolves to the response data.
      */
-    sendToAsync: async function (instance, command, sendData) {
-        console.log(`sendToAsync ${command} ${sendData}`);
+    sendToAsync: function (instance, command, sendData) {
+        this.visSkiinfo.debug && console.log(`sendToAsync ${command} ${JSON.stringify(sendData)}`);
         return new Promise((resolve, reject) => {
             try {
                 vis.conn.sendTo(instance, command, sendData, function (receiveData) {
@@ -985,7 +978,8 @@ vis.binds['skiinfo'] = {
      *          If the oid has fewer than two parts, returns [null, null].
      */
     getInstanceInfo: function (oid) {
-        console.log('getInstanceInfo');
+        this.visSkiinfo = vis.binds['skiinfo'];
+        this.visSkiinfo.debug && console.log('getInstanceInfo');
         let idParts = oid.trim().split('.');
         if (idParts.length < 2) {
             return [null, null];
