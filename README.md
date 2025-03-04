@@ -40,6 +40,98 @@ With the table head, you can toggle the sort mode for each column (default, desc
 With the star icon you can remove the area from the favorite list.
 As a datapoint please select the config datapoint.
 
+## Available sendTo commands
+
+### getServerSkiData
+
+Get the current data for the requested ski data to the client.
+
+#### Parameters for getServerSkiData
+
+none
+
+#### Example for getServerSkiData
+
+```javascript
+let instance = 'skiinfo.0';
+let response = await sendToAsync(instance, 'getServerSkiData', {});
+console.log(response);
+```
+
+### getServerCountryData
+
+Loads the country data if it was not already loaded and sends the data back to the client.
+
+#### Parameters for getServerCountryData
+
+- countrycode
+
+#### Example for getServerCountryData
+
+```javascript
+let instance = 'skiinfo.0';
+let response = await sendToAsync(instance, 'getServerCountryData', { countrycode: 'deutschland' });
+console.log(response);
+```
+
+### getServerRegionData
+
+Loads the country and region data if it was not already loaded and sends the data
+back to the client.
+
+#### Parameters for getServerRegionData
+
+- countrycode
+- regioncode
+
+#### Example for getServerRegionData
+
+```javascript
+let instance = 'skiinfo.0';
+let response = await sendToAsync(instance, 'getServerRegionData', {
+    countrycode: 'deutschland',
+    countrycode: 'bayern',
+});
+console.log(response);
+```
+
+### addServerFavorite
+
+Adds a favorite area for the given country and area.
+If the favorite area does not exist it will be added.
+Sends the updated data back to the client.
+
+#### Parameters for addServerFavorite
+
+- countrycode
+- regioncode
+
+#### Example for addServerFavorite
+
+```javascript
+let instance = 'skiinfo.0';
+let response = await sendToAsync(instance, 'addServerFavorite', { countrycode: 'deutschland', countrycode: 'bayern' });
+console.log(response);
+```
+
+### delServerFavorite
+
+Removes a favorite area for the given country and area.
+Sends the updated data back to the client.
+
+#### Parameters for delServerFavorite
+
+- countrycode
+- regioncode
+
+#### Example for delServerFavorite
+
+```javascript
+let instance = 'skiinfo.0';
+let response = await sendToAsync(instance, 'delServerFavorite', { countrycode: 'deutschland', countrycode: 'bayern' });
+console.log(response);
+```
+
 ## Todo
 
 - to be defined
@@ -78,3 +170,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+```
+
+```

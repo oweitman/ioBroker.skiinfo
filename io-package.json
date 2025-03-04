@@ -1,7 +1,7 @@
 {
     "common": {
         "name": "skiinfo",
-        "version": "0.0.1",
+        "version": "0.0.2",
         "news": {
             "0.0.1": {
                 "en": "initial release",
@@ -71,11 +71,7 @@
                 "js-controller": ">=6.0.11"
             }
         ],
-        "globalDependencies": [
-            {
-                "admin": ">=7.4.10"
-            }
-        ]
+        "globalDependencies": [{}]
     },
     "native": {},
     "objects": [],
