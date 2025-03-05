@@ -190,10 +190,13 @@ console.log(response);
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+### 0.1.0 (2025-03-05)
 
-### **WORK IN PROGRESS**
-
-- (oweitman) initial release
+- initial release
+- The color for favorites has now been made selectable
+- minor CSS improvements
+- Documentation of the sendTo commands has been added.
+- The documentation of the CSS classes has been added.
 
 ## License
 
