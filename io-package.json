@@ -1,59 +1,33 @@
 {
   "common": {
     "name": "skiinfo",
-    "version": "0.3.0",
+    "version": "0.4.0",
     "news": {
+      "0.4.0": {
+        "en": "fix version info",
+        "de": "details zur version",
+        "ru": "исправить версию info",
+        "pt": "corrigir informações da versão",
+        "nl": "versie-informatie herstellen",
+        "fr": "correction des informations de version",
+        "it": "correzione della versione info",
+        "es": "actualización",
+        "pl": "poprawiać informacje o wersji",
+        "uk": "інформація про версію",
+        "zh-cn": "固定版本信息"
+      },
       "0.3.0": {
-        "en": "release",
-        "de": "release",
-        "ru": "освобождение",
-        "pt": "lançamento",
-        "nl": "release",
-        "fr": "libération",
-        "it": "rilascio",
-        "es": "liberación",
-        "pl": "zwolnienie",
-        "uk": "видання",
-        "zh-cn": "释放"
-      },
-      "0.2.0": {
-        "en": "enable npm deploy",
-        "de": "npm-einsatz",
-        "ru": "включить npm развертывание",
-        "pt": "ativar a aplicação npm",
-        "nl": "npm-implementatie inschakelen",
-        "fr": "active le déploiement de npm",
-        "it": "abilitare npm schieramento",
-        "es": "habilitar el despliegue de npm",
-        "pl": "włączenie rozmieszczania npm",
-        "uk": "увімкнути npm розгортання",
-        "zh-cn": "启用 npm 部署"
-      },
-      "0.1.0": {
-        "en": "initial release\nThe color for favorites has now been made selectable\nminor CSS improvements\nDocumentation of the sendTo commands has been added.\nThe documentation of the CSS classes has been added.",
-        "de": "erstausstrahlung\nDie Farbe für Favoriten wurde nun wählbar gemacht\nkleine CSS Verbesserungen\nDokumentation des Absenders Zu Befehlen wurde hinzugefügt.\nDie Dokumentation der CSS-Klassen wurde hinzugefügt.",
-        "ru": "первоначальное освобождение\nЦвет для фаворитов теперь стал выбираемым\nнезначительные улучшения CSS\nДокументация отправки К командам добавились.\nДобавлена документация классов CSS.",
-        "pt": "lançamento inicial\nA cor para os favoritos foi agora feita selecionável\npequenas melhorias CSS\nDocumentação do envio Foram adicionados comandos.\nA documentação das classes CSS foi adicionada.",
-        "nl": "eerste release\nDe kleur voor favorieten is nu geselecteerd\nkleine CSS verbeteringen\nDocumentatie van de verzending Aan commando's is toegevoegd.\nDe documentatie van de CSS klassen is toegevoegd.",
-        "fr": "libération initiale\nLa couleur pour les favoris a maintenant été sélectionnée\naméliorations mineures du CSS\nDocumentation de l'envoi Aux commandes ont été ajoutées.\nLa documentation des classes CSS a été ajoutée.",
-        "it": "rilascio iniziale\nIl colore per i preferiti è stato ora reso selezionabile\nmiglioramenti CSS minori\nDocumentazione dell'invio Ai comandi è stato aggiunto.\nÈ stata aggiunta la documentazione delle classi CSS.",
-        "es": "liberación inicial\nEl color para los favoritos ahora se ha hecho seleccionable\nmenor CSS\nDocumentación del envío Se han añadido órdenes.\nSe ha añadido la documentación de las clases de CSS.",
-        "pl": "początkowe zwolnienie\nKolor dla ulubionych został już wybrany\nniewielkie ulepszenia CSS\nDokumentacja wysyłania Do poleceń dodano.\nDodano dokumentację klas CSS.",
-        "uk": "початковий реліз\nКолір для улюбленців тепер був виготовлений вибір\nнеповнолітній CSS\nДокументація відправки Для команд було додано.\nДодано документацію класів CSS.",
-        "zh-cn": "初步释放\n喜欢的颜色现在已经可以选择了\ncSS小改进\n发送文件 添加到命令中 .\n增加了CSS课程的文件."
-      },
-      "0.0.1": {
-        "en": "initial release",
-        "de": "Erstveröffentlichung",
-        "ru": "Начальная версия",
-        "pt": "lançamento inicial",
-        "nl": "Eerste uitgave",
-        "fr": "Première version",
-        "it": "Versione iniziale",
-        "es": "Versión inicial",
-        "pl": "Pierwsze wydanie",
-        "uk": "Початкова версія",
-        "zh-cn": "首次出版"
+        "en": "initial release\nThe color for favorites has now been made selectable\nminor CSS improvements\nDocumentation of the sendTo commands has been added.\nThe documentation of the CSS classes has been added.\nenable npm deploy\nrelease",
+        "de": "Erstveröffentlichung\nDie Farbe für Favoriten wurde jetzt ausgewählt\nKleinere CSS -Verbesserungen\nDie Dokumentation der SendTO -Befehle wurde hinzugefügt.\nDie Dokumentation der CSS -Klassen wurde hinzugefügt.\nAktivieren Sie die NPM -Bereitstellung\nfreigeben",
+        "ru": "Первоначальный выпуск\nЦвет для фаворитов теперь стал выбираемым\nНезначительные улучшения CSS\nДокументация команд Sendto была добавлена.\nДокументация классов CSS была добавлена.\nВключить NPM развернуть\nвыпускать",
+        "pt": "liberação inicial\nA cor dos favoritos já foi feita selecionável\nMelhorias menores do CSS\nA documentação dos comandos sendto foi adicionada.\nA documentação das classes CSS foi adicionada.\nAtivar NPM implantando\nliberar",
+        "nl": "eerste release\nDe kleur voor favorieten is nu selecteerbaar gemaakt\nKleine CSS -verbeteringen\nDocumentatie van de verzendo -opdrachten is toegevoegd.\nDe documentatie van de CSS -klassen is toegevoegd.\nNPM -implementatie inschakelen\nuitgave",
+        "fr": "libération initiale\nLa couleur des favoris a maintenant été rendue sélectionnable\nAméliorations mineures du CSS\nUne documentation des commandes SendtO a été ajoutée.\nLa documentation des classes CSS a été ajoutée.\nActiver le déploiement NPM\nlibérer",
+        "it": "Rilascio iniziale\nIl colore per i favoriti è stato ora reso selezionabile\nMiglioramenti CSS minori\nÈ stata aggiunta la documentazione dei comandi SendTo.\nÈ stata aggiunta la documentazione delle classi CSS.\nAbilita NPM Deploy\npubblicazione",
+        "es": "lanzamiento inicial\nEl color para los favoritos ahora se ha hecho selectable\nMejoras de CSS menores\nSe ha agregado documentación de los comandos SENDTO.\nSe ha agregado la documentación de las clases CSS.\nHabilitar NPM Deploy\nliberar",
+        "pl": "Początkowe wydanie\nKolor ulubionych został wybrany\ndrobne ulepszenia CSS\nDodano dokumentację poleceń SendTo.\nDodano dokumentację klas CSS.\nWłącz wdrożenie NPM\nuwolnienie",
+        "uk": "Початковий випуск\nКолір для улюблених тепер вибирається\nНезначні вдосконалення CSS\nДокументація команд Sendto додається.\nДодано документацію класів CSS.\nУвімкнути розгортання NPM\nзвільнення",
+        "zh-cn": "初始版本\n现在可以选择收藏夹的颜色\n次要CSS改进\n已添加了sendto命令的文档。\n添加了CSS类的文档。\n启用NPM部署\n发布"
       }
     },
     "titleLang": {
