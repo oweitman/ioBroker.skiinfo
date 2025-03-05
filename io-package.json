@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "skiinfo",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "news": {
+      "0.2.0": {
+        "en": "enable npm deploy",
+        "de": "npm-einsatz",
+        "ru": "включить npm развертывание",
+        "pt": "ativar a aplicação npm",
+        "nl": "npm-implementatie inschakelen",
+        "fr": "active le déploiement de npm",
+        "it": "abilitare npm schieramento",
+        "es": "habilitar el despliegue de npm",
+        "pl": "włączenie rozmieszczania npm",
+        "uk": "увімкнути npm розгортання",
+        "zh-cn": "启用 npm 部署"
+      },
       "0.1.0": {
         "en": "initial release\nThe color for favorites has now been made selectable\nminor CSS improvements\nDocumentation of the sendTo commands has been added.\nThe documentation of the CSS classes has been added.",
         "de": "erstausstrahlung\nDie Farbe für Favoriten wurde nun wählbar gemacht\nkleine CSS Verbesserungen\nDokumentation des Absenders Zu Befehlen wurde hinzugefügt.\nDie Dokumentation der CSS-Klassen wurde hinzugefügt.",

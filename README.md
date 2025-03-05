@@ -190,6 +190,10 @@ console.log(response);
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+### 0.2.0 (2025-03-05)
+
+- enable npm deploy
+
 ### 0.1.0 (2025-03-05)
 
 - initial release
