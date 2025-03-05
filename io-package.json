@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "skiinfo",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "news": {
+      "0.3.0": {
+        "en": "release",
+        "de": "release",
+        "ru": "освобождение",
+        "pt": "lançamento",
+        "nl": "release",
+        "fr": "libération",
+        "it": "rilascio",
+        "es": "liberación",
+        "pl": "zwolnienie",
+        "uk": "видання",
+        "zh-cn": "释放"
+      },
       "0.2.0": {
         "en": "enable npm deploy",
         "de": "npm-einsatz",
