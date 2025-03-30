@@ -38,9 +38,6 @@ class Skiinfo extends utils.Adapter {
             skiinfoserver = new skiinfoclassNew(this);
             await skiinfoserver.init();
         }
-
-        // in this template all states changes inside the adapters namespace are subscribed
-        this.subscribeStates('*');
     }
 
     /**
@@ -60,26 +57,6 @@ class Skiinfo extends utils.Adapter {
             callback();
         }
     }
-
-    /**
-     * Is called if a subscribed state changes
-     *
-     * @param id - state id
-     * @param state - new state
-     */
-    onStateChange(id, state) {
-        if (state) {
-            // The state was changed
-            this.log.debug(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
-            if (skiinfoserver) {
-                skiinfoserver.doStateChange(id, state);
-            }
-        } else {
-            // The state was deleted
-            this.log.debug(`state ${id} deleted`);
-        }
-    }
-
     onMessage(obj) {
         if (typeof obj === 'object' && obj.message) {
             if (obj.command === 'send') {

@@ -196,6 +196,7 @@ console.log(response);
 - fix url
 - fix classname of CountryList
 - improve icons with round corners
+- fix advices from code review
 
 ### 0.4.0 (2025-03-05)
 
