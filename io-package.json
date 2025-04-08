@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "skiinfo",
-    "version": "0.4.0",
+    "version": "0.4.1",
     "news": {
+      "0.4.1": {
+        "en": "fix url\nfix classname of CountryList\nimprove icons with round corners\nfix advices from code review\nfix global dependency",
+        "de": "in den warenkorb\nfixer Klassenname von CountryList\nicons mit runden ecken verbessern\nbereinigte raten von code review\nglobale abhängigkeit",
+        "ru": "исправить url\nназвание класса CountryList\nулучшить иконки с круглыми углами\nисправить советы от code review\nустранение глобальной зависимости",
+        "pt": "corrigir url\ncorrigir o nome da classe de CountryList\nmelhorar ícones com cantos redondos\ncorrigir conselhos de revisão de código\ncorrigir a dependência global",
+        "nl": "fix url\nfix klassenaam van CountryList\npictogrammen verbeteren met ronde hoeken\nfix adviezen van code review\nvaste wereldwijde afhankelijkheid",
+        "fr": "fixer l'url\nfixer le nom de classe de CountryList\naméliorer les icônes avec les coins ronds\nfixer les conseils de l'examen du code\nfixer la dépendance mondiale",
+        "it": "correzione url\nfisso nome di classe di CountryList\nmigliorare le icone con angoli rotondi\ncorreggere i consigli dalla recensione del codice\nfissare la dipendenza globale",
+        "es": "arregla url\narreglar nombre de clase de CountryList\nmejorar iconos con esquinas redondas\nfijar consejos de revisión del código\nfijar la dependencia mundial",
+        "pl": "fix url\nfix classname of CountryList\npoprawić ikony z okrągłych rogach\nfix porady z przeglądu kodu\nnaprawić globalną zależność",
+        "uk": "фіксувати виворіт\nфіксувати Назва класу CountryList\nпокращує іконки з круглими кутами\nфіксувати поради з огляду коду\nвиправити глобальну залежність",
+        "zh-cn": "修复url\n国家列表的修饰类名称\n改进带有圆角的图标\n从代码审查中固定建议\n纠正全球依赖性"
+      },
       "0.4.0": {
         "en": "fix version info",
         "de": "details zur version",
@@ -93,9 +106,7 @@
         "js-controller": ">=6.0.11"
       }
     ],
-    "globalDependencies": [
-      {}
-    ]
+    "globalDependencies": []
   },
   "native": {},
   "objects": [],

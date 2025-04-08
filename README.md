@@ -190,13 +190,13 @@ console.log(response);
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 0.4.1 (2025-04-08)
 
 - fix url
 - fix classname of CountryList
 - improve icons with round corners
 - fix advices from code review
+- fix global dependency
 
 ### 0.4.0 (2025-03-05)
 
