@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "skiinfo",
-    "version": "0.4.1",
+    "version": "0.5.0",
     "news": {
+      "0.5.0": {
+        "en": "add search for regions in browser",
+        "de": "suche nach regionen im browser hinzufügen",
+        "ru": "добавить поиск по регионам в браузере",
+        "pt": "adicionar pesquisa para regiões no navegador",
+        "nl": "zoekopdracht voor regio's toevoegen in de browser",
+        "fr": "ajouter la recherche des régions dans le navigateur",
+        "it": "aggiungere la ricerca per le regioni nel browser",
+        "es": "añadir búsqueda de regiones en el navegador",
+        "pl": "dodaj wyszukiwanie regionów w przeglądarce",
+        "uk": "додати пошук регіонів в браузер",
+        "zh-cn": "在浏览器中添加搜索区域"
+      },
       "0.4.1": {
         "en": "fix url\nfix classname of CountryList\nimprove icons with round corners\nfix advices from code review\nfix global dependency",
         "de": "in den warenkorb\nfixer Klassenname von CountryList\nicons mit runden ecken verbessern\nbereinigte raten von code review\nglobale abhängigkeit",
