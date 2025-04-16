@@ -27,7 +27,7 @@
     },
     "Area": {
         "en": "Area",
-        "de": "Bereich",
+        "de": "Gebiet",
         "ru": "Область",
         "pt": "Área",
         "nl": "Gebied",
@@ -66,7 +66,7 @@
     },
     "Neu": {
         "en": "Fresh",
-        "de": "Frisch",
+        "de": "Neuschnee",
         "ru": "Свежие",
         "pt": "Fresco",
         "nl": "Vers",
@@ -79,7 +79,7 @@
     },
     "Lift": {
         "en": "Lift",
-        "de": "Aufzug",
+        "de": "Lift",
         "ru": "Подъемник",
         "pt": "Elevador",
         "nl": "Lift",
@@ -97,10 +97,36 @@
         "pt": "data de",
         "nl": "datum van",
         "fr": "date de",
-        "it": "data di",
-        "es": "fecha de",
+        "it": "date of",
+        "es": "date of",
         "pl": "data",
         "uk": "дата",
         "zh-cn": "date of"
+    },
+    "Suchbegriff": {
+        "en": "Search term",
+        "de": "Suchbegriff",
+        "ru": "Поисковый термин",
+        "pt": "Termo de pesquisa",
+        "nl": "Zoekterm",
+        "fr": "Terme de recherche",
+        "it": "Termine di ricerca",
+        "es": "Término de búsqueda",
+        "pl": "Wyszukiwane hasło",
+        "uk": "Пошуковий запит",
+        "zh-cn": "Search term"
+    },
+    "yyy": {
+        "en": "yyy",
+        "de": "yyy",
+        "ru": "yyy",
+        "pt": "yyy",
+        "nl": "yyy",
+        "fr": "aaa",
+        "it": "aaaa",
+        "es": "yyy",
+        "pl": "yyy",
+        "uk": "yyy",
+        "zh-cn": "yyy"
     }
 }

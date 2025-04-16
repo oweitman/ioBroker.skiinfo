@@ -57,7 +57,7 @@
         },
         Area: {
           en: "Area",
-          de: "Bereich",
+          de: "Gebiet",
           ru: "\u041E\u0431\u043B\u0430\u0441\u0442\u044C",
           pt: "\xC1rea",
           nl: "Gebied",
@@ -96,7 +96,7 @@
         },
         Neu: {
           en: "Fresh",
-          de: "Frisch",
+          de: "Neuschnee",
           ru: "\u0421\u0432\u0435\u0436\u0438\u0435",
           pt: "Fresco",
           nl: "Vers",
@@ -109,7 +109,7 @@
         },
         Lift: {
           en: "Lift",
-          de: "Aufzug",
+          de: "Lift",
           ru: "\u041F\u043E\u0434\u044A\u0435\u043C\u043D\u0438\u043A",
           pt: "Elevador",
           nl: "Lift",
@@ -127,18 +127,44 @@
           pt: "data de",
           nl: "datum van",
           fr: "date de",
-          it: "data di",
-          es: "fecha de",
+          it: "date of",
+          es: "date of",
           pl: "data",
           uk: "\u0434\u0430\u0442\u0430",
           "zh-cn": "date of"
+        },
+        Suchbegriff: {
+          en: "Search term",
+          de: "Suchbegriff",
+          ru: "\u041F\u043E\u0438\u0441\u043A\u043E\u0432\u044B\u0439 \u0442\u0435\u0440\u043C\u0438\u043D",
+          pt: "Termo de pesquisa",
+          nl: "Zoekterm",
+          fr: "Terme de recherche",
+          it: "Termine di ricerca",
+          es: "T\xE9rmino de b\xFAsqueda",
+          pl: "Wyszukiwane has\u0142o",
+          uk: "\u041F\u043E\u0448\u0443\u043A\u043E\u0432\u0438\u0439 \u0437\u0430\u043F\u0438\u0442",
+          "zh-cn": "Search term"
+        },
+        yyy: {
+          en: "yyy",
+          de: "yyy",
+          ru: "yyy",
+          pt: "yyy",
+          nl: "yyy",
+          fr: "aaa",
+          it: "aaaa",
+          es: "yyy",
+          pl: "yyy",
+          uk: "yyy",
+          "zh-cn": "yyy"
         }
       };
     }
   });
 
   // ../package.json
-  var version = "0.4.0";
+  var version = "0.4.1";
 
   // skiinfo/js/skiinfo.js
   var translations = require_translations();
@@ -284,6 +310,46 @@
 `;
           text += "   cursor: pointer;\n";
           text += "} \n";
+          text += `.skiinfo.${widgetID}.areas .tharea.thname {
+`;
+          text += "   text-align: left;\n";
+          text += "} \n";
+          text += `.skiinfo.${widgetID}.areas .tharea .thcontent {
+`;
+          text += "   display: flex;\n";
+          text += "   justify-content: space-between;\n";
+          text += "   align-items: center;\n";
+          text += "} \n";
+          text += `.skiinfo.${widgetID}.areas .tharea .thcontent span{
+`;
+          text += "   flex: 0 0 auto;\n";
+          text += "} \n";
+          text += `.skiinfo.${widgetID}.areas .tharea .thcontent span:first-child{
+`;
+          text += "   flex: 1;\n";
+          text += "} \n";
+          text += `.skiinfo.${widgetID}.areas .tharea .thsearchcontent {
+`;
+          text += "   position: relative;\n";
+          text += "   width: 100%;\n";
+          text += "} \n";
+          text += `.skiinfo.${widgetID}.areas .tharea .thsearchcontent .thinput {
+`;
+          text += "   width: 100%;\n";
+          text += "   box-sizing: border-box;\n";
+          text += "   padding-right: 24px;\n";
+          text += "   color: currentColor;\n";
+          text += "   background-color: transparent;\n";
+          text += "   border-style: solid;\n";
+          text += "   border-width: 1px;\n";
+          text += "} \n";
+          text += `.skiinfo.${widgetID}.areas .tharea .thsearchcontent .searchclose {
+`;
+          text += "   position: absolute;\n";
+          text += "   right: 8px;\n";
+          text += "   top: 50%;\n";
+          text += "   transform: translateY(-50%);\n";
+          text += "} \n";
           text += `.skiinfo.${widgetID}.areas .favorite.selected {
 `;
           text += `   color: ${favoritecolor}; 
@@ -372,12 +438,16 @@
           text += ` <div class="skiinfo ${widgetID} flexcontainer areas">`;
           text += `  <table>`;
           text += `   <tr>`;
-          text += `    <th class="thsort tharea" data-widgetid="${widgetID}" data-sort="thname">${_("Area")} ${this.visSkiinfo.sortarrows[this.visSkiinfo[widgetID].sortState["thname"]]}</th>`;
-          text += `    <th class="thsort tharea" data-widgetid="${widgetID}" data-sort="thvalley">${_("Tal")} ${this.visSkiinfo.sortarrows[this.visSkiinfo[widgetID].sortState["thvalley"]]}</th>`;
-          text += `    <th class="thsort tharea" data-widgetid="${widgetID}" data-sort="thmountain">${_("Berg")} ${this.visSkiinfo.sortarrows[this.visSkiinfo[widgetID].sortState["thmountain"]]}</th>`;
-          text += `    <th class="thsort tharea" data-widgetid="${widgetID}" data-sort="thnew">${_("Neu")} ${this.visSkiinfo.sortarrows[this.visSkiinfo[widgetID].sortState["thnew"]]}</th>`;
-          text += `    <th class="thsort tharea" data-widgetid="${widgetID}" data-sort="thlift">${_("Lift")} ${this.visSkiinfo.sortarrows[this.visSkiinfo[widgetID].sortState["thlift"]]}</th>`;
-          text += `    <th class="thsort tharea" data-widgetid="${widgetID}" data-sort="thupdate">${_("von")} ${this.visSkiinfo.sortarrows[this.visSkiinfo[widgetID].sortState["thupdate"]]}</th>`;
+          if (this.visSkiinfo[widgetID].search !== void 0) {
+            text += `    <th class="thsort tharea thname" data-widgetid="${widgetID}" data-sort="thname"><div class="thsearchcontent"><input type="text" placeholder="${_("Suchbegriff")}" value="${this.visSkiinfo[widgetID].search}" autofocus="autofocus" class="thinput" /><span class="icon searchclose">&times;</span></div></th>`;
+          } else {
+            text += `    <th class="thsort tharea thname" data-widgetid="${widgetID}" data-sort="thname"><div class="thcontent"><span>${_("Area")}</span><span class="icon sort">${this.visSkiinfo.sortarrows[this.visSkiinfo[widgetID].sortState["thname"]]}</span> <span class="icon search">&#x1F50E;&#xFE0E;</span></div></th>`;
+          }
+          text += `    <th class="thsort tharea"        data-widgetid="${widgetID}" data-sort="thvalley">${_("Tal")} ${this.visSkiinfo.sortarrows[this.visSkiinfo[widgetID].sortState["thvalley"]]}</th>`;
+          text += `    <th class="thsort tharea"        data-widgetid="${widgetID}" data-sort="thmountain">${_("Berg")} ${this.visSkiinfo.sortarrows[this.visSkiinfo[widgetID].sortState["thmountain"]]}</th>`;
+          text += `    <th class="thsort tharea"        data-widgetid="${widgetID}" data-sort="thnew">${_("Neu")} ${this.visSkiinfo.sortarrows[this.visSkiinfo[widgetID].sortState["thnew"]]}</th>`;
+          text += `    <th class="thsort tharea"        data-widgetid="${widgetID}" data-sort="thlift">${_("Lift")} ${this.visSkiinfo.sortarrows[this.visSkiinfo[widgetID].sortState["thlift"]]}</th>`;
+          text += `    <th class="thsort tharea"        data-widgetid="${widgetID}" data-sort="thupdate">${_("von")} ${this.visSkiinfo.sortarrows[this.visSkiinfo[widgetID].sortState["thupdate"]]}</th>`;
           text += `   </tr>`;
           let sortkey = "";
           let sortdir = 0;
@@ -453,43 +523,65 @@
                 return 0;
             }
           };
-          this.visSkiinfo[widgetID].selectedCountry.areas.filter((area) => area.region == this.visSkiinfo[widgetID].selectedRegion.code).sort(compareFn).map((area) => {
+          this.visSkiinfo[widgetID].selectedCountry.areas.filter((area) => {
+            let testregion = area.region == this.visSkiinfo[widgetID].selectedRegion.code;
+            let testname = this.visSkiinfo[widgetID].search !== void 0 ? area.name.toLowerCase().includes(this.visSkiinfo[widgetID].search.toLowerCase()) : true;
+            return testregion && testname;
+          }).sort(compareFn).map((area) => {
             let selected = this.visSkiinfo[instance].data.favorites.findIndex(
               (item) => item.country == this.visSkiinfo[widgetID].selectedCountry.code && item.area == area.code
             ) == -1 ? false : true;
             text += `   <tr>`;
-            text += `    <td class="txtl"><span class="favorite ${selected ? "selected" : ""}"  data-widgetid="${widgetID}" data-country="${this.visSkiinfo[widgetID].selectedCountry.code}" data-area="${area.code}">&#x1F7CA;</span>${area.name}</td>`;
-            text += `    <td class="txtr">${area.snowValley}</td>`;
-            text += `    <td class="txtr">${area.snowMountain}</td>`;
-            text += `    <td class="txtr">${area.freshSnow}</td>`;
-            text += `    <td class="txtr">${area.liftsOpen}/${area.liftsAll}</td>`;
-            text += `    <td class="txtl">${area.lastUpdate}</td>`;
+            text += `    <td class="txtl"><span class="favorite ${selected ? "selected" : ""}"  data-widgetid="${widgetID}" data-country="${this.visSkiinfo[widgetID].selectedCountry.code}" data-area="${area.code}">&#x1F7CA;</span>${area.name} &nbsp;</td>`;
+            text += `    <td class="txtr">${area.snowValley} &nbsp;</td>`;
+            text += `    <td class="txtr">${area.snowMountain} &nbsp;</td>`;
+            text += `    <td class="txtr">${area.freshSnow} &nbsp;</td>`;
+            text += `    <td class="txtr">${area.liftsOpen}/${area.liftsAll} &nbsp;</td>`;
+            text += `    <td class="txtl">${area.lastUpdate} &nbsp;</td>`;
             text += `   </tr>`;
           });
           text += `  </table>`;
           text += ` </div>`;
           text += `</div>`;
           $(`#${widgetID}`).html(text);
-          $(`.skiinfo.${widgetID}.countries td span`).click(function() {
+          $(`.skiinfo.${widgetID}.countries td span`).on("click", function() {
             return __async(this, null, function* () {
               yield vis.binds["skiinfo"].browser.onClickCountry(this);
             });
           });
-          $(`.skiinfo.${widgetID}.regions td span`).click(function() {
+          $(`.skiinfo.${widgetID}.regions td span`).on("click", function() {
             return __async(this, null, function* () {
               yield vis.binds["skiinfo"].browser.onClickRegion(this);
             });
           });
-          $(`.skiinfo.${widgetID} .tharea`).click(function() {
+          $(`.skiinfo.${widgetID} .tharea`).on("click", function() {
             return __async(this, null, function* () {
               yield vis.binds["skiinfo"].browser.onClickHeadArea(this);
             });
           });
-          $(`.skiinfo.${widgetID}.areas .favorite`).click(function() {
+          $(`.skiinfo.${widgetID} .tharea.thname .icon.search`).on("click", function() {
+            return __async(this, null, function* () {
+              yield vis.binds["skiinfo"].browser.onClickSearchArea(this);
+            });
+          });
+          $(`.skiinfo.${widgetID}.areas .favorite`).on("click", function() {
             return __async(this, null, function* () {
               yield vis.binds["skiinfo"].browser.onClickFavorite(this);
             });
           });
+          if (this.visSkiinfo[widgetID].search !== void 0) {
+            $(`.skiinfo.${widgetID} .tharea.thname .icon.searchclose`).on("click", function() {
+              return __async(this, null, function* () {
+                yield vis.binds["skiinfo"].browser.onClickSearchClose(this);
+              });
+            });
+            $(`.skiinfo.${widgetID} .tharea.thname .thinput`).on("change", function() {
+              return __async(this, null, function* () {
+                yield vis.binds["skiinfo"].browser.onClickDoSearch(this);
+              });
+            });
+            $(`.skiinfo.${widgetID} .tharea.thname .thinput`).focus();
+          }
         });
       },
       /**
@@ -543,8 +635,60 @@
         return __async(this, null, function* () {
           let sortkey = $(el).attr("data-sort");
           let widgetID = $(el).attr("data-widgetid");
+          if (vis.binds["skiinfo"][widgetID].search !== void 0) {
+            return;
+          }
           this.visSkiinfo.debug && console.log(`onClickHeadArea ${widgetID} ${sortkey}`);
           vis.binds["skiinfo"].toggleSort(widgetID, sortkey);
+          this.render(widgetID);
+        });
+      },
+      /**
+       * Event handler for clicking on the search icon in the area list.
+       *
+       * @param el The HTML element that was clicked.
+       * @returns Promise
+       *
+       * This function enables the search bar and then calls the render function to update the widget.
+       */
+      onClickSearchArea: function(el) {
+        return __async(this, null, function* () {
+          let widgetID = $(el).parent().parent().attr("data-widgetid");
+          this.visSkiinfo.debug && console.log(`onClickSearchArea ${widgetID}`);
+          vis.binds["skiinfo"].enableSearch(widgetID);
+          this.render(widgetID);
+        });
+      },
+      /**
+       * Event handler for clicking on the close icon in the search bar.
+       *
+       * @param el The HTML element that was clicked.
+       * @returns Promise
+       *
+       * This function disables the search bar and then calls the render function to update the widget.
+       */
+      onClickSearchClose: function(el) {
+        return __async(this, null, function* () {
+          let widgetID = $(el).parent().parent().attr("data-widgetid");
+          this.visSkiinfo.debug && console.log(`onClickSearchClose ${widgetID}`);
+          vis.binds["skiinfo"].disableSearch(widgetID);
+          this.render(widgetID);
+        });
+      },
+      /**
+       * Event handler for clicking on the search button in the search bar.
+       *
+       * @param el The HTML element that was clicked.
+       * @returns Promise
+       *
+       * This function calls the doSearch function to update the search and then calls the render
+       * function to update the widget.
+       */
+      onClickDoSearch: function(el) {
+        return __async(this, null, function* () {
+          let widgetID = $(el).parent().parent().attr("data-widgetid");
+          this.visSkiinfo.debug && console.log(`onClickDoSearch ${widgetID}`);
+          vis.binds["skiinfo"].doSearch(widgetID, $(el).val());
           this.render(widgetID);
         });
       },
@@ -1018,6 +1162,43 @@
         }
       }
       vis.binds["skiinfo"][widgetID].sortState[sortkey] = (vis.binds["skiinfo"][widgetID].sortState[sortkey] + 1) % 3;
+    },
+    /**
+     * Enables search mode in the skiinfo widget.
+     *
+     * Search mode is enabled by setting the 'search' property of the widget to
+     * an empty string.
+     *
+     * @param widgetID - The ID of the widget to enable search mode in.
+     */
+    enableSearch: function(widgetID) {
+      this.visSkiinfo.debug && console.log(`enableSearch ${widgetID}`);
+      vis.binds["skiinfo"][widgetID].search = "";
+    },
+    /**
+     * Disables search mode in the skiinfo widget.
+     *
+     * Search mode is disabled by deleting the 'search' property of the widget.
+     *
+     * @param widgetID - The ID of the widget to disable search mode in.
+     */
+    disableSearch: function(widgetID) {
+      this.visSkiinfo.debug && console.log(`disableSearch ${widgetID}`);
+      delete vis.binds["skiinfo"][widgetID].search;
+    },
+    /**
+     * Updates the search value of the skiinfo widget.
+     *
+     * The search value is used to filter the areas shown in the widget.
+     * The search is case-insensitive and searches for the value in the
+     * names of the areas.
+     *
+     * @param widgetID - The ID of the widget to update the search value of.
+     * @param value - The new search value.
+     */
+    doSearch: function(widgetID, value) {
+      this.visSkiinfo.debug && console.log(`doSearch ${widgetID}`);
+      vis.binds["skiinfo"][widgetID].search = value;
     },
     /**
      * Sends a request to the server to fetch the current ski data for all countries, regions, and areas.
