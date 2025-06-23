@@ -20,7 +20,7 @@
         "url": "https://github.com/oweitman/ioBroker.skiinfo.git"
     },
     "engines": {
-        "node": ">= 18"
+        "node": ">=20.18.1"
     },
     "dependencies": {
         "@iobroker/adapter-core": "^3.2.3",
@@ -35,7 +35,7 @@
         "@iobroker/adapter-dev": "^1.4.0",
         "@iobroker/eslint-config": "^2.0.2",
         "@iobroker/testing": "^5.0.4",
-        "@tsconfig/node18": "^18.2.4",
+        "@tsconfig/node20": "^20.1.6",
         "@types/chai": "^4.3.20",
         "@types/chai-as-promised": "^7.1.8",
         "@types/mocha": "^10.0.10",
