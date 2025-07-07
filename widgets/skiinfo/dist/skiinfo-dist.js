@@ -164,7 +164,7 @@
   });
 
   // ../package.json
-  var version = "0.4.1";
+  var version = "0.5.0";
 
   // skiinfo/js/skiinfo.js
   var translations = require_translations();

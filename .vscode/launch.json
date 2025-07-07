@@ -9,7 +9,6 @@
             "args": ["--debug", "0"],
             "program": "node_modules/iobroker.skiinfo/main.js",
             "cwd": "${workspaceFolder}/.dev-server/default",
-            "runtimeExecutable": "c:/Users/oweit/AppData/Roaming/fnm/aliases/default/node.exe",
             "stopOnEntry": true,
             "sourceMaps": true,
             "console": "internalConsole",
