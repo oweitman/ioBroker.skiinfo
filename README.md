@@ -197,7 +197,7 @@ console.log(response);
 
 ### **WORK IN PROGRESS**
 
-- revert to node 18
+- test remove node 18,extend to node 24
 
 ### 0.5.0 (2025-04-16)
 
