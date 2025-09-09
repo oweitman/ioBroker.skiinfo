@@ -57,7 +57,7 @@
         "test:package": "mocha test/package --exit",
         "test:integration": "mocha test/integration --exit",
         "test": "npm run test:js && npm run test:integration && npm run test:package",
-        "coverage": "nyc npm run test:js && nyc report --reporter=html",
+        "coverage": "nyc npm run test:js && nyc report --reporter=lcovonly",
         "check": "tsc --noEmit -p tsconfig.check.json",
         "lint": "eslint .",
         "repochecker": "npx github:oweitman/ioBroker.repochecker https://github.com/oweitman/ioBroker.skiinfo --local --noinfo",
