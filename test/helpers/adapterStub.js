@@ -13,7 +13,7 @@ function createAdapterStub() {
     const log = {
         silly: sinon.spy(),
         debug: sinon.spy(),
-        info:  sinon.spy(),
+        info: sinon.spy(),
         error: sinon.spy(),
     };
     const adapter = {
@@ -32,7 +32,6 @@ function createAdapterStub() {
         delObject: sinon.fake((name, options, cb) => { if (typeof options === 'function') { options(); } else if (cb) { cb(); } }),
         extendObjectAsync: sinon.fake.resolves(undefined),
         setState: sinon.fake((name, value, ack, cb) => { if (typeof cb === 'function') cb(); }),
-        createState: sinon.fake((level1, level2, name, stateTemplate, cb) => { if (cb) cb(); }),
         getObjectListAsync: sinon.stub(),
         getStatesAsync: sinon.stub(),
         getState: sinon.fake((name, cb) => { if (cb) cb(null, adapter._stateValue || null); }),
