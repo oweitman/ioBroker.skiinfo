@@ -229,7 +229,8 @@
                 thnew: 0,
                 thlift: 0,
                 thupdate: 0
-              }
+              },
+              filter: false
             };
           }
           this.visSkiinfo[widgetID].wdata = data;
@@ -264,6 +265,10 @@
 `;
           text += "   display: flex; \n";
           text += "   height: 100%; \n";
+          text += "} \n";
+          text += `.skiinfo.${widgetID} .icon {
+`;
+          text += "   line-height: 1em; \n";
           text += "} \n";
           text += `.skiinfo.${widgetID}.flexcontainer {
 `;
@@ -306,6 +311,10 @@
           text += "   cursor: pointer;\n";
           text += "   padding-right: 5px; \n";
           text += "} \n";
+          text += `.skiinfo.${widgetID}.countries .filter {
+`;
+          text += "   cursor: pointer;\n";
+          text += "} \n";
           text += `.skiinfo.${widgetID}.areas .tharea {
 `;
           text += "   cursor: pointer;\n";
@@ -325,6 +334,24 @@
           text += "   flex: 0 0 auto;\n";
           text += "} \n";
           text += `.skiinfo.${widgetID}.areas .tharea .thcontent span:first-child{
+`;
+          text += "   flex: 1;\n";
+          text += "} \n";
+          text += `.skiinfo.${widgetID}.countries .thcountries.thname {
+`;
+          text += "   text-align: left;\n";
+          text += "} \n";
+          text += `.skiinfo.${widgetID}.countries .thcountries .thcontent {
+`;
+          text += "   display: flex;\n";
+          text += "   justify-content: space-between;\n";
+          text += "   align-items: center;\n";
+          text += "} \n";
+          text += `.skiinfo.${widgetID}.countries .thcountries .thcontent span{
+`;
+          text += "   flex: 0 0 auto;\n";
+          text += "} \n";
+          text += `.skiinfo.${widgetID}.countries .thcountries .thcontent span:first-child{
 `;
           text += "   flex: 1;\n";
           text += "} \n";
@@ -351,6 +378,11 @@
           text += "   transform: translateY(-50%);\n";
           text += "} \n";
           text += `.skiinfo.${widgetID}.areas .favorite.selected {
+`;
+          text += `   color: ${favoritecolor}; 
+`;
+          text += "} \n";
+          text += `.skiinfo.${widgetID}.countries .icon.filter.selected {
 `;
           text += `   color: ${favoritecolor}; 
 `;
@@ -405,15 +437,21 @@
           text += ` <div class="skiinfo ${widgetID} flexcontainer countries">`;
           text += `  <table>`;
           text += `   <tr>`;
-          text += `    <th>${_("Land")}</th>`;
+          text += `    <th class="thcountries thname" data-widgetid="${widgetID}"><div class="thcontent"><span>${_("Land")}</span><span class="icon filter ${this.visSkiinfo[widgetID].filter ? "selected" : ""}">&#x1F7CA;</span></div></th>`;
           text += `   </tr>`;
-          this.visSkiinfo[instance].data.skiinfodata.map((country) => {
+          let countries = this.visSkiinfo[instance].data.skiinfodata;
+          countries.map((country2) => {
+            let selected = country2.code == this.visSkiinfo[widgetID].selectedCountry;
+            let visible = this.visSkiinfo[instance].data.favorites.findIndex((item) => item.country == country2.code) == -1 ? false : true;
+            if (this.visSkiinfo[widgetID].filter && !visible) {
+              return;
+            }
             text += `   <tr>`;
             text += `    <td><span 
-                 data-code="${country.code}" 
+                 data-code="${country2.code}" 
                  data-widgetid="${widgetID}" 
-                 ${country.code == this.visSkiinfo[widgetID].selectedCountry.code ? 'class="selected"' : ""}
-                >${country.name}</span></td>`;
+                 ${selected ? 'class="selected"' : ""}
+                >${country2.name}</span></td>`;
             text += `   </tr>`;
           });
           text += `  </table>`;
@@ -423,13 +461,21 @@
           text += `   <tr>`;
           text += `    <th>${_("Region")}</th>`;
           text += `   </tr>`;
-          this.visSkiinfo[widgetID].selectedCountry.regions.map((region) => {
+          let country = countries.find((c) => c.code == this.visSkiinfo[widgetID].selectedCountry);
+          country.regions.map((region) => {
+            let selected = region.code == this.visSkiinfo[widgetID].selectedRegion;
+            let visible = this.visSkiinfo[instance].data.favorites.findIndex(
+              (item) => item.country == this.visSkiinfo[widgetID].selectedCountry && item.region == region.code
+            ) == -1 ? false : true;
+            if (this.visSkiinfo[widgetID].filter && !visible) {
+              return;
+            }
             text += `   <tr>`;
             text += `    <td><span  
                  data-code="${region.code}" 
                  data-widgetid="${widgetID}" 
-                 data-country="${this.visSkiinfo[widgetID].selectedCountry.code}" 
-                 ${region.code == this.visSkiinfo[widgetID].selectedRegion.code ? 'class="selected"' : ""}
+                 data-country="${this.visSkiinfo[widgetID].selectedCountry}" 
+                 ${selected ? 'class="selected"' : ""}
                 >${region.name}</span></td>`;
             text += `   </tr>`;
           });
@@ -523,16 +569,19 @@
                 return 0;
             }
           };
-          this.visSkiinfo[widgetID].selectedCountry.areas.filter((area) => {
-            let testregion = area.region == this.visSkiinfo[widgetID].selectedRegion.code;
+          country.areas.filter((area) => {
+            let testregion = area.region == this.visSkiinfo[widgetID].selectedRegion;
             let testname = this.visSkiinfo[widgetID].search !== void 0 ? area.name.toLowerCase().includes(this.visSkiinfo[widgetID].search.toLowerCase()) : true;
             return testregion && testname;
           }).sort(compareFn).map((area) => {
             let selected = this.visSkiinfo[instance].data.favorites.findIndex(
-              (item) => item.country == this.visSkiinfo[widgetID].selectedCountry.code && item.area == area.code
+              (item) => item.country == this.visSkiinfo[widgetID].selectedCountry && item.area == area.code
             ) == -1 ? false : true;
+            if (this.visSkiinfo[widgetID].filter && !selected) {
+              return;
+            }
             text += `   <tr>`;
-            text += `    <td class="txtl"><span class="favorite ${selected ? "selected" : ""}"  data-widgetid="${widgetID}" data-country="${this.visSkiinfo[widgetID].selectedCountry.code}" data-area="${area.code}">&#x1F7CA;</span>${area.name} &nbsp;</td>`;
+            text += `    <td class="txtl"><span class="icon favorite ${selected ? "selected" : ""}"  data-widgetid="${widgetID}" data-country="${area.country}" data-region="${area.region}" data-area="${area.code}">&#x1F7CA;</span>${area.name} &nbsp;</td>`;
             text += `    <td class="txtr">${area.snowValley} &nbsp;</td>`;
             text += `    <td class="txtr">${area.snowMountain} &nbsp;</td>`;
             text += `    <td class="txtr">${area.freshSnow} &nbsp;</td>`;
@@ -567,6 +616,11 @@
           $(`.skiinfo.${widgetID}.areas .favorite`).on("click", function() {
             return __async(this, null, function* () {
               yield vis.binds["skiinfo"].browser.onClickFavorite(this);
+            });
+          });
+          $(`.skiinfo.${widgetID} .thcountries.thname .icon.filter`).on("click", function() {
+            return __async(this, null, function* () {
+              vis.binds["skiinfo"].browser.onClickCountriesFilter(this);
             });
           });
           if (this.visSkiinfo[widgetID].search !== void 0) {
@@ -659,6 +713,14 @@
           this.render(widgetID);
         });
       },
+      onClickCountriesFilter: function(el) {
+        return __async(this, null, function* () {
+          let widgetID = $(el).parent().parent().attr("data-widgetid");
+          this.visSkiinfo.debug && console.log(`onClickCountriesFilter ${widgetID}`);
+          vis.binds["skiinfo"].toggleFilter(widgetID);
+          this.render(widgetID);
+        });
+      },
       /**
        * Event handler for clicking on the close icon in the search bar.
        *
@@ -706,6 +768,7 @@
           let widgetID = $(el).attr("data-widgetid");
           let instance = this.visSkiinfo[widgetID].instance;
           let country = $(el).attr("data-country");
+          let region = $(el).attr("data-region");
           let area = $(el).attr("data-area");
           if (!this.visSkiinfo[instance].data.favorites) {
             this.visSkiinfo[instance].data.favorites = [];
@@ -718,6 +781,7 @@
             this.visSkiinfo[instance].data = yield this.visSkiinfo.delServerFavorite(
               this.visSkiinfo[widgetID].instance,
               country,
+              region,
               area
             );
           } else {
@@ -725,6 +789,7 @@
             this.visSkiinfo[instance].data = yield this.visSkiinfo.addServerFavorite(
               this.visSkiinfo[widgetID].instance,
               country,
+              region,
               area
             );
           }
@@ -747,22 +812,18 @@
           let instance = this.visSkiinfo[widgetID].instance;
           this.visSkiinfo.debug && console.log(`setSelectedCountry ${widgetID} ${countrycode}`);
           if (countrycode) {
-            this.visSkiinfo[widgetID].selectedCountry = this.visSkiinfo[instance].data.skiinfodata.find(
-              (country) => country.code == countrycode
-            );
-            if (this.visSkiinfo[widgetID].selectedCountry.loaded == false) {
+            this.visSkiinfo[widgetID].selectedCountry = countrycode;
+            let country = this.visSkiinfo[instance].data.skiinfodata.find((country2) => country2.code == countrycode);
+            if (!country || country.loaded == false) {
               this.visSkiinfo[instance].data = yield this.visSkiinfo.getServerCountryData(
                 this.visSkiinfo[widgetID].instance,
-                this.visSkiinfo[widgetID].selectedCountry.code
-              );
-              this.visSkiinfo[widgetID].selectedCountry = this.visSkiinfo[instance].data.skiinfodata.find(
-                (country) => country.code == countrycode
+                this.visSkiinfo[widgetID].selectedCountry
               );
             }
-            this.visSkiinfo[widgetID].selectedRegion = this.visSkiinfo[widgetID].selectedCountry.regions[0];
+            this.visSkiinfo[widgetID].selectedRegion = country.regions[0].code;
           } else {
-            this.visSkiinfo[widgetID].selectedCountry = this.visSkiinfo[instance].data.skiinfodata[0];
-            this.visSkiinfo[widgetID].selectedRegion = this.visSkiinfo[widgetID].selectedCountry.regions[0];
+            this.visSkiinfo[widgetID].selectedCountry = this.visSkiinfo[instance].data.skiinfodata[0].code;
+            this.visSkiinfo[widgetID].selectedRegion = this.visSkiinfo[instance].data.skiinfodata[0].regions[0].code;
           }
         });
       },
@@ -782,40 +843,33 @@
        */
       setSelectedRegion: function(widgetID, countrycode, regioncode) {
         return __async(this, null, function* () {
+          let country, region;
           let instance = this.visSkiinfo[widgetID].instance;
           this.visSkiinfo.debug && console.log(`setSelectedRegion ${widgetID} ${countrycode} ${regioncode}`);
           if (countrycode) {
-            this.visSkiinfo[widgetID].selectedCountry = this.visSkiinfo[instance].data.skiinfodata.find(
-              (country) => country.code == countrycode
-            );
-            if (this.visSkiinfo[widgetID].selectedCountry.loaded == false) {
+            country = this.visSkiinfo[instance].data.skiinfodata.find((country2) => country2.code == countrycode);
+            if (!country || country.loaded == false) {
               this.visSkiinfo[instance].data = yield this.visSkiinfo.getServerCountryData(
                 this.visSkiinfo[widgetID].instance,
-                this.visSkiinfo[widgetID].selectedCountry.code
-              );
-              this.visSkiinfo[widgetID].selectedCountry = this.visSkiinfo[instance].data.skiinfodata.find(
-                (country) => country.code == countrycode
+                this.visSkiinfo[widgetID].selectedCountry
               );
             }
           } else {
-            this.visSkiinfo[widgetID].selectedCountry = this.visSkiinfo[instance].data.skiinfodata[0];
+            this.visSkiinfo[widgetID].selectedCountry = this.visSkiinfo[instance].data.skiinfodata[0].code;
           }
+          country = this.visSkiinfo[instance].data.skiinfodata.find((country2) => country2.code == countrycode);
           if (regioncode) {
-            this.visSkiinfo[widgetID].selectedRegion = this.visSkiinfo[widgetID].selectedCountry.regions.find(
-              (region) => region.code == regioncode
-            );
-            if (this.visSkiinfo[widgetID].selectedRegion.loaded == false) {
+            this.visSkiinfo[widgetID].selectedRegion = regioncode;
+            region = country.regions.find((region2) => region2.code == regioncode);
+            if (!region || region.loaded == false) {
               this.visSkiinfo[instance].data = yield this.visSkiinfo.getServerRegionData(
                 this.visSkiinfo[widgetID].instance,
-                this.visSkiinfo[widgetID].selectedCountry.code,
-                this.visSkiinfo[widgetID].selectedRegion.code
-              );
-              this.visSkiinfo[widgetID].selectedRegion = this.visSkiinfo[widgetID].selectedCountry.regions.find(
-                (region) => region.code == regioncode
+                this.visSkiinfo[widgetID].selectedCountry,
+                this.visSkiinfo[widgetID].selectedRegion
               );
             }
           } else {
-            this.visSkiinfo[widgetID].selectedRegion = this.visSkiinfo[widgetID].selectedCountry.regions[0];
+            this.visSkiinfo[widgetID].selectedRegion = country.regions[0].code;
           }
         });
       }
@@ -1186,6 +1240,10 @@
       this.visSkiinfo.debug && console.log(`disableSearch ${widgetID}`);
       delete vis.binds["skiinfo"][widgetID].search;
     },
+    toggleFilter: function(widgetID) {
+      this.visSkiinfo.debug && console.log(`toggleFilter ${widgetID}`);
+      vis.binds["skiinfo"][widgetID].filter = !vis.binds["skiinfo"][widgetID].filter;
+    },
     /**
      * Updates the search value of the skiinfo widget.
      *
@@ -1249,14 +1307,16 @@
      *
      * @param instance - The instance ID of the adapter.
      * @param countrycode - The code of the country to add the favorite for.
+     * @param regioncode - The code of the region to add the favorite for.
      * @param areacode - The code of the area to add as a favorite.
      * @returns - A promise that resolves to the ski data.
      */
-    addServerFavorite: function(instance, countrycode, areacode) {
+    addServerFavorite: function(instance, countrycode, regioncode, areacode) {
       return __async(this, null, function* () {
         this.visSkiinfo.debug && console.log(`addServerFavorite request`);
         return yield this.sendToAsync(instance, "addServerFavorite", {
           countrycode,
+          regioncode,
           areacode
         });
       });
@@ -1266,14 +1326,16 @@
      *
      * @param instance - The instance ID of the adapter.
      * @param countrycode - The code of the country to remove the favorite for.
+     * @param regioncode - The code of the region to remove the favorite for.
      * @param areacode - The code of the area to remove as a favorite.
      * @returns - A promise that resolves to the ski data.
      */
-    delServerFavorite: function(instance, countrycode, areacode) {
+    delServerFavorite: function(instance, countrycode, regioncode, areacode) {
       return __async(this, null, function* () {
         this.visSkiinfo.debug && console.log(`delServerFavorite request`);
         return yield this.sendToAsync(instance, "delServerFavorite", {
           countrycode,
+          regioncode,
           areacode
         });
       });

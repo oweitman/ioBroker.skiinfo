@@ -76,6 +76,7 @@ vis.binds['skiinfo'] = {
                         thlift: 0,
                         thupdate: 0,
                     },
+                    filter: false,
                 };
             }
             this.visSkiinfo[widgetID].wdata = data;
@@ -108,6 +109,11 @@ vis.binds['skiinfo'] = {
             text += '   display: flex; \n';
             text += '   height: 100%; \n';
             text += '} \n';
+
+            text += `.skiinfo.${widgetID} .icon {\n`;
+            text += '   line-height: 1em; \n';
+            text += '} \n';
+
             text += `.skiinfo.${widgetID}.flexcontainer {\n`;
             text += '   overflow: auto; \n';
             text += '   scrollbar-width: thin; \n';
@@ -143,6 +149,11 @@ vis.binds['skiinfo'] = {
             text += '   cursor: pointer;\n';
             text += '   padding-right: 5px; \n';
             text += '} \n';
+
+            text += `.skiinfo.${widgetID}.countries .filter {\n`;
+            text += '   cursor: pointer;\n';
+            text += '} \n';
+
             text += `.skiinfo.${widgetID}.areas .tharea {\n`;
             text += '   cursor: pointer;\n';
             text += '} \n';
@@ -159,6 +170,21 @@ vis.binds['skiinfo'] = {
             text += '   flex: 0 0 auto;\n';
             text += '} \n';
             text += `.skiinfo.${widgetID}.areas .tharea .thcontent span:first-child{\n`;
+            text += '   flex: 1;\n';
+            text += '} \n';
+
+            text += `.skiinfo.${widgetID}.countries .thcountries.thname {\n`;
+            text += '   text-align: left;\n';
+            text += '} \n';
+            text += `.skiinfo.${widgetID}.countries .thcountries .thcontent {\n`;
+            text += '   display: flex;\n';
+            text += '   justify-content: space-between;\n';
+            text += '   align-items: center;\n';
+            text += '} \n';
+            text += `.skiinfo.${widgetID}.countries .thcountries .thcontent span{\n`;
+            text += '   flex: 0 0 auto;\n';
+            text += '} \n';
+            text += `.skiinfo.${widgetID}.countries .thcountries .thcontent span:first-child{\n`;
             text += '   flex: 1;\n';
             text += '} \n';
 
@@ -183,6 +209,10 @@ vis.binds['skiinfo'] = {
             text += '} \n';
 
             text += `.skiinfo.${widgetID}.areas .favorite.selected {\n`;
+            text += `   color: ${favoritecolor}; \n`;
+            text += '} \n';
+
+            text += `.skiinfo.${widgetID}.countries .icon.filter.selected {\n`;
             text += `   color: ${favoritecolor}; \n`;
             text += '} \n';
             text += `.skiinfo.${widgetID} table {\n`;
@@ -227,14 +257,26 @@ vis.binds['skiinfo'] = {
             text += ` <div class="skiinfo ${widgetID} flexcontainer countries">`;
             text += `  <table>`;
             text += `   <tr>`;
-            text += `    <th>${_('Land')}</th>`;
+            text += `    <th class="thcountries thname" data-widgetid="${widgetID}"><div class="thcontent"><span>${_('Land')}</span><span class="icon filter ${this.visSkiinfo[widgetID].filter ? 'selected' : ''}">&#x1F7CA;</span></div></th>`;
+
             text += `   </tr>`;
-            this.visSkiinfo[instance].data.skiinfodata.map(country => {
+            let countries = this.visSkiinfo[instance].data.skiinfodata;
+            countries.map(country => {
+                let selected = country.code == this.visSkiinfo[widgetID].selectedCountry;
+
+                let visible =
+                    this.visSkiinfo[instance].data.favorites.findIndex(item => item.country == country.code) == -1
+                        ? false
+                        : true;
+
+                if (this.visSkiinfo[widgetID].filter && !visible) {
+                    return;
+                }
                 text += `   <tr>`;
                 text += `    <td><span 
                  data-code="${country.code}" 
                  data-widgetid="${widgetID}" 
-                 ${country.code == this.visSkiinfo[widgetID].selectedCountry.code ? 'class="selected"' : ''}
+                 ${selected ? 'class="selected"' : ''}
                 >${country.name}</span></td>`;
                 text += `   </tr>`;
             });
@@ -245,13 +287,26 @@ vis.binds['skiinfo'] = {
             text += `   <tr>`;
             text += `    <th>${_('Region')}</th>`;
             text += `   </tr>`;
-            this.visSkiinfo[widgetID].selectedCountry.regions.map(region => {
+            let country = countries.find(c => c.code == this.visSkiinfo[widgetID].selectedCountry);
+            country.regions.map(region => {
+                let selected = region.code == this.visSkiinfo[widgetID].selectedRegion;
+
+                let visible =
+                    this.visSkiinfo[instance].data.favorites.findIndex(
+                        item => item.country == this.visSkiinfo[widgetID].selectedCountry && item.region == region.code,
+                    ) == -1
+                        ? false
+                        : true;
+
+                if (this.visSkiinfo[widgetID].filter && !visible) {
+                    return;
+                }
                 text += `   <tr>`;
                 text += `    <td><span  
                  data-code="${region.code}" 
                  data-widgetid="${widgetID}" 
-                 data-country="${this.visSkiinfo[widgetID].selectedCountry.code}" 
-                 ${region.code == this.visSkiinfo[widgetID].selectedRegion.code ? 'class="selected"' : ''}
+                 data-country="${this.visSkiinfo[widgetID].selectedCountry}" 
+                 ${selected ? 'class="selected"' : ''}
                 >${region.name}</span></td>`;
                 text += `   </tr>`;
             });
@@ -360,9 +415,9 @@ vis.binds['skiinfo'] = {
                 }
             };
 
-            this.visSkiinfo[widgetID].selectedCountry.areas
+            country.areas
                 .filter(area => {
-                    let testregion = area.region == this.visSkiinfo[widgetID].selectedRegion.code;
+                    let testregion = area.region == this.visSkiinfo[widgetID].selectedRegion;
                     let testname =
                         this.visSkiinfo[widgetID].search !== undefined
                             ? area.name.toLowerCase().includes(this.visSkiinfo[widgetID].search.toLowerCase())
@@ -373,14 +428,15 @@ vis.binds['skiinfo'] = {
                 .map(area => {
                     let selected =
                         this.visSkiinfo[instance].data.favorites.findIndex(
-                            item =>
-                                item.country == this.visSkiinfo[widgetID].selectedCountry.code &&
-                                item.area == area.code,
+                            item => item.country == this.visSkiinfo[widgetID].selectedCountry && item.area == area.code,
                         ) == -1
                             ? false
                             : true;
+                    if (this.visSkiinfo[widgetID].filter && !selected) {
+                        return;
+                    }
                     text += `   <tr>`;
-                    text += `    <td class="txtl"><span class="favorite ${selected ? 'selected' : ''}"  data-widgetid="${widgetID}" data-country="${this.visSkiinfo[widgetID].selectedCountry.code}" data-area="${area.code}">&#x1F7CA;</span>${area.name} &nbsp;</td>`;
+                    text += `    <td class="txtl"><span class="icon favorite ${selected ? 'selected' : ''}"  data-widgetid="${widgetID}" data-country="${area.country}" data-region="${area.region}" data-area="${area.code}">&#x1F7CA;</span>${area.name} &nbsp;</td>`;
                     text += `    <td class="txtr">${area.snowValley} &nbsp;</td>`;
                     text += `    <td class="txtr">${area.snowMountain} &nbsp;</td>`;
                     text += `    <td class="txtr">${area.freshSnow} &nbsp;</td>`;
@@ -408,6 +464,9 @@ vis.binds['skiinfo'] = {
 
             $(`.skiinfo.${widgetID}.areas .favorite`).on('click', async function () {
                 await vis.binds['skiinfo'].browser.onClickFavorite(this);
+            });
+            $(`.skiinfo.${widgetID} .thcountries.thname .icon.filter`).on('click', async function () {
+                vis.binds['skiinfo'].browser.onClickCountriesFilter(this);
             });
 
             if (this.visSkiinfo[widgetID].search !== undefined) {
@@ -487,6 +546,12 @@ vis.binds['skiinfo'] = {
             vis.binds['skiinfo'].enableSearch(widgetID);
             this.render(widgetID);
         },
+        onClickCountriesFilter: async function (el) {
+            let widgetID = $(el).parent().parent().attr('data-widgetid');
+            this.visSkiinfo.debug && console.log(`onClickCountriesFilter ${widgetID}`);
+            vis.binds['skiinfo'].toggleFilter(widgetID);
+            this.render(widgetID);
+        },
         /**
          * Event handler for clicking on the close icon in the search bar.
          *
@@ -529,6 +594,7 @@ vis.binds['skiinfo'] = {
             let widgetID = $(el).attr('data-widgetid');
             let instance = this.visSkiinfo[widgetID].instance;
             let country = $(el).attr('data-country');
+            let region = $(el).attr('data-region');
             let area = $(el).attr('data-area');
             if (!this.visSkiinfo[instance].data.favorites) {
                 this.visSkiinfo[instance].data.favorites = [];
@@ -541,6 +607,7 @@ vis.binds['skiinfo'] = {
                 this.visSkiinfo[instance].data = await this.visSkiinfo.delServerFavorite(
                     this.visSkiinfo[widgetID].instance,
                     country,
+                    region,
                     area,
                 );
             } else {
@@ -548,6 +615,7 @@ vis.binds['skiinfo'] = {
                 this.visSkiinfo[instance].data = await this.visSkiinfo.addServerFavorite(
                     this.visSkiinfo[widgetID].instance,
                     country,
+                    region,
                     area,
                 );
             }
@@ -568,22 +636,20 @@ vis.binds['skiinfo'] = {
             let instance = this.visSkiinfo[widgetID].instance;
             this.visSkiinfo.debug && console.log(`setSelectedCountry ${widgetID} ${countrycode}`);
             if (countrycode) {
-                this.visSkiinfo[widgetID].selectedCountry = this.visSkiinfo[instance].data.skiinfodata.find(
-                    country => country.code == countrycode,
-                );
-                if (this.visSkiinfo[widgetID].selectedCountry.loaded == false) {
+                this.visSkiinfo[widgetID].selectedCountry = countrycode;
+                let country = this.visSkiinfo[instance].data.skiinfodata.find(country => country.code == countrycode);
+
+                if (!country || country.loaded == false) {
                     this.visSkiinfo[instance].data = await this.visSkiinfo.getServerCountryData(
                         this.visSkiinfo[widgetID].instance,
-                        this.visSkiinfo[widgetID].selectedCountry.code,
-                    );
-                    this.visSkiinfo[widgetID].selectedCountry = this.visSkiinfo[instance].data.skiinfodata.find(
-                        country => country.code == countrycode,
+                        this.visSkiinfo[widgetID].selectedCountry,
                     );
                 }
-                this.visSkiinfo[widgetID].selectedRegion = this.visSkiinfo[widgetID].selectedCountry.regions[0];
+                this.visSkiinfo[widgetID].selectedRegion = country.regions[0].code;
             } else {
-                this.visSkiinfo[widgetID].selectedCountry = this.visSkiinfo[instance].data.skiinfodata[0];
-                this.visSkiinfo[widgetID].selectedRegion = this.visSkiinfo[widgetID].selectedCountry.regions[0];
+                this.visSkiinfo[widgetID].selectedCountry = this.visSkiinfo[instance].data.skiinfodata[0].code;
+                this.visSkiinfo[widgetID].selectedRegion =
+                    this.visSkiinfo[instance].data.skiinfodata[0].regions[0].code;
             }
         },
         /**
@@ -601,40 +667,36 @@ vis.binds['skiinfo'] = {
          * @returns Promise
          */
         setSelectedRegion: async function (widgetID, countrycode, regioncode) {
+            let country, region;
             let instance = this.visSkiinfo[widgetID].instance;
             this.visSkiinfo.debug && console.log(`setSelectedRegion ${widgetID} ${countrycode} ${regioncode}`);
             if (countrycode) {
-                this.visSkiinfo[widgetID].selectedCountry = this.visSkiinfo[instance].data.skiinfodata.find(
-                    country => country.code == countrycode,
-                );
-                if (this.visSkiinfo[widgetID].selectedCountry.loaded == false) {
+                country = this.visSkiinfo[instance].data.skiinfodata.find(country => country.code == countrycode);
+
+                if (!country || country.loaded == false) {
                     this.visSkiinfo[instance].data = await this.visSkiinfo.getServerCountryData(
                         this.visSkiinfo[widgetID].instance,
-                        this.visSkiinfo[widgetID].selectedCountry.code,
-                    );
-                    this.visSkiinfo[widgetID].selectedCountry = this.visSkiinfo[instance].data.skiinfodata.find(
-                        country => country.code == countrycode,
+                        this.visSkiinfo[widgetID].selectedCountry,
                     );
                 }
             } else {
-                this.visSkiinfo[widgetID].selectedCountry = this.visSkiinfo[instance].data.skiinfodata[0];
+                this.visSkiinfo[widgetID].selectedCountry = this.visSkiinfo[instance].data.skiinfodata[0].code;
             }
+            country = this.visSkiinfo[instance].data.skiinfodata.find(country => country.code == countrycode);
             if (regioncode) {
-                this.visSkiinfo[widgetID].selectedRegion = this.visSkiinfo[widgetID].selectedCountry.regions.find(
-                    region => region.code == regioncode,
-                );
-                if (this.visSkiinfo[widgetID].selectedRegion.loaded == false) {
+                this.visSkiinfo[widgetID].selectedRegion = regioncode;
+
+                region = country.regions.find(region => region.code == regioncode);
+
+                if (!region || region.loaded == false) {
                     this.visSkiinfo[instance].data = await this.visSkiinfo.getServerRegionData(
                         this.visSkiinfo[widgetID].instance,
-                        this.visSkiinfo[widgetID].selectedCountry.code,
-                        this.visSkiinfo[widgetID].selectedRegion.code,
-                    );
-                    this.visSkiinfo[widgetID].selectedRegion = this.visSkiinfo[widgetID].selectedCountry.regions.find(
-                        region => region.code == regioncode,
+                        this.visSkiinfo[widgetID].selectedCountry,
+                        this.visSkiinfo[widgetID].selectedRegion,
                     );
                 }
             } else {
-                this.visSkiinfo[widgetID].selectedRegion = this.visSkiinfo[widgetID].selectedCountry.regions[0];
+                this.visSkiinfo[widgetID].selectedRegion = country.regions[0].code;
             }
         },
     },
@@ -1006,6 +1068,10 @@ vis.binds['skiinfo'] = {
         this.visSkiinfo.debug && console.log(`disableSearch ${widgetID}`);
         delete vis.binds['skiinfo'][widgetID].search;
     },
+    toggleFilter: function (widgetID) {
+        this.visSkiinfo.debug && console.log(`toggleFilter ${widgetID}`);
+        vis.binds['skiinfo'][widgetID].filter = !vis.binds['skiinfo'][widgetID].filter;
+    },
     /**
      * Updates the search value of the skiinfo widget.
      *
@@ -1063,13 +1129,15 @@ vis.binds['skiinfo'] = {
      *
      * @param instance - The instance ID of the adapter.
      * @param countrycode - The code of the country to add the favorite for.
+     * @param regioncode - The code of the region to add the favorite for.
      * @param areacode - The code of the area to add as a favorite.
      * @returns - A promise that resolves to the ski data.
      */
-    addServerFavorite: async function (instance, countrycode, areacode) {
+    addServerFavorite: async function (instance, countrycode, regioncode, areacode) {
         this.visSkiinfo.debug && console.log(`addServerFavorite request`);
         return await this.sendToAsync(instance, 'addServerFavorite', {
             countrycode: countrycode,
+            regioncode: regioncode,
             areacode: areacode,
         });
     },
@@ -1078,13 +1146,15 @@ vis.binds['skiinfo'] = {
      *
      * @param instance - The instance ID of the adapter.
      * @param countrycode - The code of the country to remove the favorite for.
+     * @param regioncode - The code of the region to remove the favorite for.
      * @param areacode - The code of the area to remove as a favorite.
      * @returns - A promise that resolves to the ski data.
      */
-    delServerFavorite: async function (instance, countrycode, areacode) {
+    delServerFavorite: async function (instance, countrycode, regioncode, areacode) {
         this.visSkiinfo.debug && console.log(`delServerFavorite request`);
         return await this.sendToAsync(instance, 'delServerFavorite', {
             countrycode: countrycode,
+            regioncode: regioncode,
             areacode: areacode,
         });
     },

@@ -42,6 +42,7 @@ You can toggle the sorting for each column (default, descending, or ascending)
 using the table header.
 You can search using the search icon in the area column.
 You can toggle favorites mode using the star icon.
+All entries can be reduced to favorites to find favorites faster.
 
 Select the configuration data point as the data point.
 
@@ -213,6 +214,7 @@ console.log(response);
 ### **WORK IN PROGRESS**
 
 - test remove node 18,extend to node 24
+- add filter button in browser to reduce all entries to favorites.
 
 ### 0.5.0 (2025-04-16)
 
