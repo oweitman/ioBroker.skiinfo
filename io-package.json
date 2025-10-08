@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "skiinfo",
-    "version": "0.5.0",
+    "version": "1.0.0",
     "news": {
+      "1.0.0": {
+        "en": "test remove node 18,extend to node 24\nadd filter button in browser to reduce all entries to favorites.",
+        "de": "test entfernen node 18,extend to node 24\nfügen sie filter-taste im browser, um alle einträge zu favoriten zu reduzieren.",
+        "ru": "тест удалить узел 18, расширить узел 24\nдобавьте кнопку фильтра в браузере, чтобы уменьшить все записи в избранное.",
+        "pt": "teste remover o nó 18, extend ao nó 24\nadicionar o botão filtro no navegador para reduzir todas as entradas aos favoritos.",
+        "nl": "test verwijder node 18, extend naar node 24\nfilterknop toevoegen in de browser om alle items te verminderen naar favorieten.",
+        "fr": "test enlever le noeud 18,extendre au noeud 24\najouter le bouton filtre dans le navigateur pour réduire toutes les entrées aux favoris.",
+        "it": "prova rimuovere nodo 18, estend to node 24\naggiungere il pulsante filtro nel browser per ridurre tutte le voci ai preferiti.",
+        "es": "prueba eliminar nodo 18,extender a nodo 24\nañadir botón de filtro en el navegador para reducir todas las entradas a los favoritos.",
+        "pl": "test usunąć węzeł 18, rozszerzyć na węzeł 24\ndodaj przycisk filtrowania w przeglądarce, aby zredukować wszystkie wpisy do ulubionych.",
+        "uk": "test remove node 18,потенд в вузол 24\nдодати кнопку фільтра в браузері, щоб зменшити всі записи до улюблених.",
+        "zh-cn": "测试去除节点 18, 延伸至节点 24\n在浏览器中添加过滤按钮, 将所有条目减少到最爱 ."
+      },
       "0.5.0": {
         "en": "add search for regions in browser",
         "de": "suche nach regionen im browser hinzufügen",

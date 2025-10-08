@@ -210,8 +210,7 @@ console.log(response);
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 1.0.0 (2025-10-08)
 
 - test remove node 18,extend to node 24
 - add filter button in browser to reduce all entries to favorites.
