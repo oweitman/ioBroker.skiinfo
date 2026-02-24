@@ -18,8 +18,16 @@
         {
             "type": "chrome",
             "request": "launch",
+            "name": "vis edit",
+            "url": "http://127.0.0.1:8082/vis/edit.html?main#test",
+            "trace": true,
+            "skipFiles": ["socket.io.js"]
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
             "name": "vis runtime",
-            "url": "http://127.0.0.1:8082/vis/index.html#main",
+            "url": "http://127.0.0.1:8082/vis/index.html#test",
             "trace": true,
             "skipFiles": ["socket.io.js"]
         },
