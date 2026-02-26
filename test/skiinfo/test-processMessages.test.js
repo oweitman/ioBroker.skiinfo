@@ -152,7 +152,7 @@ describe('skiinfoserver message processing', () => {
             const msg = { from: 'src', command: 'addServerFavorite', message: { countrycode: 'de', areacode: 'area1' }, callback: sinon.stub() };
             server.addServerFavoriteMsg(msg);
             // favorite should be added
-            expect(server.favorites).to.deep.equal([ { country: 'de', area: 'area1' } ]);
+            expect(server.favorites).to.deep.equal([{ country: 'de', area: 'area1', region: '' }]);
             expect(areaStub.isFavorite).to.be.true;
             expect(saveSpy.calledOnce).to.be.true;
             // sendTo should have been called
@@ -162,11 +162,11 @@ describe('skiinfoserver message processing', () => {
         it('does not add duplicate favorites and logs error', () => {
             const errorSpy = sinon.stub(server.ioUtil, 'logerror');
             const sendSpy = adapter.sendTo;
-            server.favorites = [ { country: 'de', area: 'area1' } ];
+            server.favorites = [{ country: 'de', area: 'area1' }];
             const msg = { from: 'src', command: 'addServerFavorite', message: { countrycode: 'de', areacode: 'area1' }, callback: sinon.stub() };
             server.addServerFavoriteMsg(msg);
             // favorites should remain unchanged
-            expect(server.favorites).to.deep.equal([ { country: 'de', area: 'area1' } ]);
+            expect(server.favorites).to.deep.equal([{ country: 'de', area: 'area1' }]);
             expect(errorSpy.calledOnce).to.be.true;
             expect(sendSpy.calledOnce).to.be.true;
         });
@@ -176,7 +176,7 @@ describe('skiinfoserver message processing', () => {
         it('removes an existing favorite and clears area flag', () => {
             const areaStub = { isFavorite: true };
             server.countryList.getCountryByCode.withArgs('de').returns({ getAreaByCode: sinon.stub().withArgs('area1').returns(areaStub) });
-            server.favorites = [ { country: 'de', area: 'area1' } ];
+            server.favorites = [{ country: 'de', area: 'area1' }];
             const saveSpy = sinon.stub(server, 'saveConfig').resolves();
             const msg = { from: 'src', command: 'delServerFavorite', message: { countrycode: 'de', areacode: 'area1' }, callback: sinon.stub() };
             server.delServerFavoriteMsg(msg);
@@ -188,12 +188,12 @@ describe('skiinfoserver message processing', () => {
 
         it('logs error when favorite to delete is not found', () => {
             const errorSpy = sinon.stub(server.ioUtil, 'logerror');
-            server.favorites = [ { country: 'de', area: 'area1' } ];
+            server.favorites = [{ country: 'de', area: 'area1' }];
             const msg = { from: 'src', command: 'delServerFavorite', message: { countrycode: 'de', areacode: 'area2' }, callback: sinon.stub() };
             server.delServerFavoriteMsg(msg);
             expect(errorSpy.calledOnce).to.be.true;
             // favorites should remain unchanged
-            expect(server.favorites).to.deep.equal([ { country: 'de', area: 'area1' } ]);
+            expect(server.favorites).to.deep.equal([{ country: 'de', area: 'area1' }]);
             // sendTo still called to return current state
             expect(adapter.sendTo.calledOnce).to.be.true;
         });

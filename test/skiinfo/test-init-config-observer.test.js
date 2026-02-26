@@ -94,8 +94,8 @@ describe('skiinfoserver initialization and config', () => {
         // loaded status, so we track calls via the stub.  Use full country
         // codes (e.g. deutschsprachig names) to mirror real codes like
         // 'deutschland' and 'schweiz'.  Each load stub updates loaded to true.
-        const countryDE = { loaded: false, load: sinon.stub().callsFake(function() { this.loaded = true; return Promise.resolve(); }) };
-        const countryCH = { loaded: false, load: sinon.stub().callsFake(function() { this.loaded = true; return Promise.resolve(); }) };
+        const countryDE = { loaded: false, load: sinon.stub().callsFake(function () { this.loaded = true; return Promise.resolve(); }) };
+        const countryCH = { loaded: false, load: sinon.stub().callsFake(function () { this.loaded = true; return Promise.resolve(); }) };
         server.countryList = {
             getCountryByCode: (code) => {
                 if (code === 'deutschland') return countryDE;
@@ -103,8 +103,8 @@ describe('skiinfoserver initialization and config', () => {
                 return null;
             },
         };
-        server.favorites = [ { country: 'deutschland' }, { country: 'schweiz' } ];
-        await server.udateFavorites();
+        server.favorites = [{ country: 'deutschland' }, { country: 'schweiz' }];
+        await server.updateFavorites();
         expect(countryDE.load.calledOnce).to.be.true;
         expect(countryCH.load.calledOnce).to.be.true;
     });
@@ -113,8 +113,8 @@ describe('skiinfoserver initialization and config', () => {
         server.countryList = {
             getCountryByCode: sinon.stub().returns(null),
         };
-        server.favorites = [ { country: 'xx' } ];
-        await server.udateFavorites();
+        server.favorites = [{ country: 'xx' }];
+        await server.updateFavorites();
         // nothing should be called, but it should not throw
         expect(server.countryList.getCountryByCode.calledOnceWithExactly('xx')).to.be.true;
     });
@@ -122,7 +122,7 @@ describe('skiinfoserver initialization and config', () => {
     it('saveConfig writes favorites and timestamp as JSON state', async () => {
         // stub setStateAsync to capture the payload
         const setStateStub = sinon.stub(server.ioUtil, 'setStateAsync').resolves();
-        server.favorites = [ { country: 'de', area: 'area1' } ];
+        server.favorites = [{ country: 'de', area: 'area1' }];
         await server.saveConfig();
         expect(setStateStub.calledOnce).to.be.true;
         const args = setStateStub.firstCall.args;
@@ -135,7 +135,7 @@ describe('skiinfoserver initialization and config', () => {
     });
 
     it('readConfig populates favorites from stored state', async () => {
-        const configObj = { favorites: [ { country: 'de', area: 'area2' } ] };
+        const configObj = { favorites: [{ country: 'de', area: 'area2' }] };
         sinon.stub(server.ioUtil, 'getStateAsync').resolves({ val: JSON.stringify(configObj) });
         await server.readConfig();
         expect(server.favorites).to.deep.equal(configObj.favorites);
