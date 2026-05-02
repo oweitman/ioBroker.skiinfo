@@ -210,6 +210,9 @@ console.log(response);
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+- (copilot) Adapter requires node.js >= 22 now
+
 ### 1.0.0 (2025-10-08)
 
 - test remove node 18,extend to node 24

@@ -20,7 +20,7 @@
         "url": "https://github.com/oweitman/ioBroker.skiinfo.git"
     },
     "engines": {
-        "node": ">=20.18.1"
+        "node": ">=22.18.1"
     },
     "dependencies": {
         "@iobroker/adapter-core": "^3.3.2",
