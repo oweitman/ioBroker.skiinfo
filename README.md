@@ -247,6 +247,8 @@ console.log(response);
 - Documentation of the sendTo commands has been added.
 - The documentation of the CSS classes has been added.
 
+[Older changelogs can be found there](CHANGELOG_OLD.md)
+
 ## License
 
 MIT License
